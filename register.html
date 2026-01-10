@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hackathon Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-dark: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.75);
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+            --error: #ef4444;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg-dark);
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(99,102,241,0.35), transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(139,92,246,0.25), transparent 60%);
+            z-index: -2;
+            filter: blur(80px);
+            animation: bgPulse 12s ease-in-out infinite alternate;
+        }
+        @keyframes bgPulse {
+            from { filter: blur(60px); }
+            to { filter: blur(120px); }
+        }
+
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .particles span {
+            position: absolute;
+            width: 6px; height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: floatUp 12s linear infinite;
+        }
+        @keyframes floatUp {
+            from { transform: translateY(100vh) scale(0.5); opacity: 0.3; }
+            to { transform: translateY(-10vh) scale(1.4); opacity: 1; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            border-radius: 16px;
+            background: var(--card-bg);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.45);
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.2s ease;
+        }
+
+        h2 {
+            font-size: 1.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            margin-bottom: 10px;
+            animation: fadeInDown 0.7s ease;
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .subtitle {
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            animation: fadeIn 1.5s ease;
+        }
+
+        .title-type {
+            overflow: hidden;
+            border-right: 2px solid var(--primary);
+            white-space: nowrap;
+            width: 0;
+            margin: 0 auto 12px;
+            /* Fix: steps(19) matches character count, text-align:left prevents wiggling inside box */
+            text-align: left;
+            animation: typing 2.5s steps(19) forwards, cursorBlink 0.7s infinite;
+        }
+        
+        /* Fix: Animate to 19ch (width of 'Registration Portal') instead of 100% */
+        @keyframes typing { 
+            from { width: 0; } 
+            to { width: 19ch; } 
+        }
+        @keyframes cursorBlink { 50% { border-color: transparent; } }
+
+        label {
+            margin-top: 15px;
+            display: block;
+            color: var(--text-gray);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            transition: 0.2s;
+            animation: fadeSlide 0.6s ease forwards;
+            opacity: 0;
+            box-sizing: border-box; /* Fixes padding issues */
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 12px rgba(99,102,241,0.4);
+        }
+
+        /* Validation Styling */
+        input:invalid:not(:placeholder-shown) {
+            border-color: var(--error);
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
+        }
+
+        input:disabled {
+            text-align: center;
+            background: rgba(255,255,255,0.08);
+            letter-spacing: 1px;
+            color: var(--text-gray);
+            font-weight: bold;
+        }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary), #818cf8);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(99,102,241,0.4);
+            animation: fadeSlide 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        button:hover {
+            transform: translateY(-3px) scale(1.02) rotateX(8deg);
+        }
+
+        button.processing::after {
+            content: "";
+            width: 20px; height: 20px;
+            border: 3px solid transparent;
+            border-top-color: white;
+            border-radius: 50%;
+            position: absolute;
+            right: 15px; top: 50%;
+            transform: translateY(-50%);
+            animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+
+        .code-decor {
+            position: absolute;
+            top: -15px; left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            animation: neonPulse 2s ease-in-out infinite;
+        }
+        @keyframes neonPulse {
+            0% { box-shadow: 0 0 6px rgba(99,102,241,0.5); }
+            100% { box-shadow: 0 0 20px rgba(99,102,241,0.9); }
+        }
+
+        .hidden { display: none; }
+
+        .status-message {
+            margin-top: 20px;
+            padding: 12px;
+            text-align: center;
+            border-radius: 8px;
+            border: 1px solid rgba(99,102,241,0.5);
+            color: #818cf8;
+            background: rgba(99,102,241,0.1);
+            animation: fadeSlide 0.4s ease forwards;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="particles">
+        <span style="left:10%; animation-delay:0s;"></span>
+        <span style="left:30%; animation-delay:2s;"></span>
+        <span style="left:50%; animation-delay:4s;"></span>
+        <span style="left:70%; animation-delay:1s;"></span>
+        <span style="left:90%; animation-delay:3s;"></span>
+    </div>
+
+    <div class="container" id="cardContainer">
+        <div class="code-decor">DEV_HACKS_2025</div>
+
+        <h2 class="title-type">Registration Portal</h2>
+        <div class="subtitle">Join the ultimate coding showdown</div>
+
+        <form id="registrationForm">
+            <label>Full Name</label>
+            <!-- Only characters and spaces allowed -->
+            <input type="text" id="name" required pattern="[A-Za-z\s]+" title="Name must only contain letters and spaces" placeholder="John Doe">
+
+            <label>Roll Number</label>
+            <!-- Only numbers allowed -->
+            <input type="text" id="rollno" required pattern="[0-9]+" title="Roll Number must only contain numbers" inputmode="numeric" placeholder="123456">
+
+            <label>College / University</label>
+            <!-- Letters, numbers, spaces and standard punctuation -->
+            <input type="text" id="college" required pattern="[A-Za-z0-9\s\.,&]+" title="Please enter a valid college name" placeholder="University Name">
+
+            <label>Email Address</label>
+            <input type="email" id="email" required placeholder="john@example.com">
+
+            <label>Mobile Number</label>
+            <!-- Exactly 10 digits -->
+            <input type="tel" id="mobile" pattern="[0-9]{10}" maxlength="10" title="Please enter a valid 10-digit mobile number" inputmode="numeric" required placeholder="9876543210">
+
+            <label>Registration Fee</label>
+            <input type="text" value="₹500.00" disabled>
+
+            <button type="submit">Proceed to Payment →</button>
+        </form>
+
+        <div id="paymentSection" class="hidden">
+            <h2 style="margin-bottom:20px;">Secure Payment</h2>
+
+            <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:10px; text-align:center; margin-bottom:25px;">
+                <div style="color:var(--text-gray); font-size:0.85rem;">Total Amount</div>
+                <div style="font-size:1.6rem; font-family:'JetBrains Mono'; font-weight:bold;">₹500.00</div>
+            </div>
+
+            <button id="payBtn" onclick="makePayment()">Pay Now</button>
+            <div id="paymentMessage"></div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById("registrationForm");
+        const paymentSection = document.getElementById("paymentSection");
+        const paymentMessage = document.getElementById("paymentMessage");
+        const payBtn = document.getElementById("payBtn");
+
+        // --- Active Input Validation (JavaScript) ---
+
+        // Helper: Prevent anything except Numbers
+        const restrictToNumbers = (e) => {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        };
+
+        // Helper: Prevent anything except Letters and Spaces
+        const restrictToLetters = (e) => {
+            e.target.value = e.target.value.replace(/[^A-Za-z\s]/g, '');
+        };
+
+        document.getElementById('name').addEventListener('input', restrictToLetters);
+        document.getElementById('rollno').addEventListener('input', restrictToNumbers);
+        document.getElementById('mobile').addEventListener('input', restrictToNumbers);
+
+        // --- Form Handling ---
+
+        form.style.opacity = "1";
+        form.style.transition = "opacity 0.6s ease";
+
+        form.addEventListener("submit", e => {
+            // HTML5 validation happens automatically before this event fires.
+            // If we are here, inputs are valid.
+            e.preventDefault();
+            form.style.opacity = "0";
+
+            setTimeout(() => {
+                form.classList.add("hidden");
+                document.querySelector(".subtitle").classList.add("hidden");
+                document.querySelector(".code-decor").style.display = "none";
+
+                paymentSection.style.opacity = "0";
+                paymentSection.classList.remove("hidden");
+
+                setTimeout(() => {
+                    paymentSection.style.transition = "opacity 0.6s ease";
+                    paymentSection.style.opacity = "1";
+                }, 50);
+
+            }, 500);
+        });
+
+        function makePayment() {
+            payBtn.disabled = true;
+            payBtn.classList.add("processing");
+            payBtn.innerHTML = "Processing...";
+
+            paymentMessage.innerHTML = `
+                <div class="status-message">Connecting to Payment Gateway...</div>
+            `;
+
+            setTimeout(() => {
+                paymentMessage.innerHTML = `
+                    <div class="status-message" style="color:#10b981; border-color:#10b981; background:rgba(16,185,129,0.1);">
+                        <b>Payment Successful!</b><br>Welcome to Dev Hacks 2025!
+                    </div>
+                `;
+                payBtn.innerHTML = "Payment Complete";
+                payBtn.classList.remove("processing");
+            }, 2000);
+        }
+
+        const card = document.getElementById("cardContainer");
+        document.addEventListener("mousemove", e => {
+            const x = (window.innerWidth / 2 - e.clientX) / 40;
+            const y = (window.innerHeight / 2 - e.clientY) / 40;
+            card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+        });
+    </script>
+
+</body>
+
+</html>

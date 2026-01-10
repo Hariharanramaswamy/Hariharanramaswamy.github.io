@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackathon 2026 | Agurchand Manmull Jain College</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap');
+
+        :root {
+            --primary-glow: #00f3ff;
+            --secondary-glow: #bc13fe;
+            --bg-color: #050510;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, #0b0b15 0%, #1a1a2e 100%);
+        }
+
+        /* Sponsor Strip */
+        .sponsor-strip {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            z-index: 10;
+        }
+
+        .sponsor-logo {
+            width: 120px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .sponsor-logo:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px var(--primary-glow);
+            color: #fff;
+        }
+
+        /* Main Container */
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding: 1rem;
+            width: 100%;
+            max-width: 100%; 
+            margin: 0 auto;
+        }
+
+        /* College Logo Section */
+        .college-header {
+            text-align: center;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            animation: fadeInDown 1.5s ease;
+            position: relative;
+            z-index: 5;
+        }
+
+        .college-name {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: clamp(1.5rem, 4vw, 3rem); /* Slightly reduced to accommodate longer text */
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.8);
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+            position: relative;
+        }
+
+        .college-name span {
+            display: block;
+            color: #fff;
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .college-unit {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 5px;
+            text-transform: none;
+            -webkit-text-stroke: 0;
+        }
+
+        /* Hero Content */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            width: 100%;
+            flex: 1;
+            padding: 0 2rem;
+        }
+
+        .hero-left { 
+            display: block; 
+            visibility: hidden;
+        } 
+        
+        .hero-center {
+            text-align: center;
+            z-index: 2;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hackathon-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to bottom, #fff 0%, #a5a5a5 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.4));
+            animation: zoomIn 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+            line-height: 1;
+        }
+
+        .hackathon-subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: var(--primary-glow);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+            font-weight: 700;
+        }
+
+        .register-btn {
+            display: inline-block;
+            padding: 20px 60px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #000;
+            background: var(--primary-glow);
+            text-decoration: none;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 2px;
+            margin-top: 1rem;
+        }
+
+        .register-btn:hover {
+            background: #fff;
+            box-shadow: 0 0 30px var(--primary-glow);
+            transform: translateY(-2px);
+            color: var(--bg-color);
+        }
+
+        /* Timer Section */
+        .timer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: space-evenly;
+            padding-right: 5vw;
+            height: 100%;
+        }
+
+        .timer-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            text-align: center;
+        }
+
+        .timer-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            padding: 25px 50px;
+            border-radius: 12px;
+            min-width: 220px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 25px rgba(0,0,0,0.5);
+            border-left: 8px solid var(--secondary-glow);
+            transition: transform 0.3s ease;
+        }
+        
+        .timer-box:hover {
+            transform: translateX(-10px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .time-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 20px var(--secondary-glow);
+            display: block;
+            line-height: 1;
+        }
+
+        .time-label {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            display: block;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1200px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+                height: auto;
+                padding-bottom: 50px;
+            }
+            .hero-left { display: none; }
+            .timer-container {
+                align-items: center;
+                padding-right: 0;
+                width: 100%;
+            }
+            .timer-grid {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hackathon-title { font-size: 3rem; }
+            .timer-box { min-width: auto; padding: 10px; }
+            .time-value { font-size: 1.8rem; }
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particles-js"></canvas>
+
+    <div class="sponsor-strip">
+        <div class="sponsor-logo">SPONSOR 1</div>
+        <div class="sponsor-logo">SPONSOR 2</div>
+        <div class="sponsor-logo">SPONSOR 3</div>
+        <div class="sponsor-logo">SPONSOR 4</div>
+        <div class="sponsor-logo">SPONSOR 5</div>
+    </div>
+
+    <div class="container">
+        <div class="hero-section">
+            <div class="hero-left"></div>
+
+            <div class="hero-center">
+                <div class="college-header">
+                    <h1 class="college-name">
+                        AGURCHAND MANMULL<br>
+                        <span>JAIN COLLEGE</span>
+                        <div class="college-unit">(A Unit of Sri. S. S. Jain Educational Society)</div>
+                    </h1>
+                </div>
+
+                <h2 class="hackathon-title">HACKATHON<br>2026</h2>
+                <div class="hackathon-subtitle">National Level 24-Hour Hackathon</div>
+                <a href="./register.html" class="register-btn">REGISTER NOW</a>
+            </div>
+
+            <div class="timer-container">
+                <div class="timer-grid">
+                    <div class="timer-box">
+                        <span class="time-value" id="days">00</span>
+                        <span class="time-label">Days</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="time-value" id="hours">00</span>
+                        <span class="time-label">Hours</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="time-value" id="minutes">00</span>
+                        <span class="time-label">Minutes</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="time-value" id="seconds">00</span>
+                        <span class="time-label">Seconds</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const targetDate = new Date("February 20, 2026 00:00:00").getTime();
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference < 0) {
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
+</html>
