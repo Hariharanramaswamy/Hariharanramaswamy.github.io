@@ -8,69 +8,204 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap"
+        rel="stylesheet">
 
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --bg-dark: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.75);
-            --text-light: #f8fafc;
-            --text-gray: #94a3b8;
+            /* Modified for Light Theme to match index.html */
+            --primary: #0284c7;
+            /* Darker Sky Blue */
+            --primary-hover: #0369a1;
+            --secondary-glow: #9333ea;
+            /* Purple */
+            --bg-color: #f8fafc;
+            /* Very Light Blue-Grey */
+            --text-color: #0f172a;
+            /* Dark Slate Blue */
+            --text-gray: #475569;
+            /* Slate 600 */
+            --card-bg: rgba(255, 255, 255, 0.6);
             --error: #ef4444;
+            --primary-glow: #0284c7;
+            --border-color: rgba(0, 0, 0, 0.1);
         }
 
         body {
             margin: 0;
             padding: 0;
-            background: var(--bg-dark);
+            background: var(--bg-color);
             overflow-x: hidden;
             font-family: 'Inter', sans-serif;
-            color: var(--text-light);
+            color: var(--text-color);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             position: relative;
         }
 
         body::before {
             content: "";
             position: fixed;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background:
-                radial-gradient(circle at 20% 20%, rgba(99,102,241,0.35), transparent 60%),
-                radial-gradient(circle at 80% 80%, rgba(139,92,246,0.25), transparent 60%);
+            /* Light Gradient: White to Light Blue-Grey */
+            background: radial-gradient(circle at 50% 30%, #ffffff 0%, #cbd5e1 100%);
             z-index: -2;
-            filter: blur(80px);
-            animation: bgPulse 12s ease-in-out infinite alternate;
-        }
-        @keyframes bgPulse {
-            from { filter: blur(60px); }
-            to { filter: blur(120px); }
+            filter: blur(0px);
+            animation: none;
         }
 
         .particles {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
             z-index: -1;
         }
+
         .particles span {
             position: absolute;
-            width: 6px; height: 6px;
+            width: 6px;
+            height: 6px;
             background: var(--primary);
             border-radius: 50%;
-            opacity: 0.7;
+            opacity: 0.4;
             animation: floatUp 12s linear infinite;
         }
+
         @keyframes floatUp {
-            from { transform: translateY(100vh) scale(0.5); opacity: 0.3; }
-            to { transform: translateY(-10vh) scale(1.4); opacity: 1; }
+            from {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0.1;
+            }
+
+            to {
+                transform: translateY(-10vh) scale(1.4);
+                opacity: 0.6;
+            }
+        }
+
+        /* Sponsor Strip */
+        .sponsor-strip {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            z-index: 10;
+        }
+
+        .sponsor-logo {
+            width: 120px;
+            height: 60px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .sponsor-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 5px;
+            /* filter: grayscale(100%) opacity(0.7); Removed to show original color */
+            transition: all 0.3s ease;
+        }
+
+        .sponsor-logo:hover {
+            background: #fff;
+            box-shadow: 0 0 15px rgba(2, 132, 199, 0.3);
+            color: var(--primary-glow);
+            border-color: var(--primary-glow);
+        }
+
+        .sponsor-logo:hover img {
+            /* filter: grayscale(0%) opacity(1); */
+            transform: scale(1.05);
+        }
+
+        /* Header Styles */
+        .college-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            animation: fadeInDown 1.5s ease;
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            padding: 0 1rem;
+        }
+
+        .header-logo {
+            height: 150px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.1));
+        }
+
+        .header-logo.right-logo {
+            height: fit-content;
+        }
+
+        .header-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .college-name {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: clamp(1.2rem, 2.5vw, 2.5rem);
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: transparent;
+            /* Dark text gradient */
+            background: linear-gradient(to bottom, #0f172a 0%, #334155 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-stroke: 0;
+            text-shadow: none;
+            position: relative;
+            max-width: 90vw;
+        }
+
+        .college-subtitle {
+            display: block;
+            color: #475569;
+            text-shadow: none;
+            font-size: clamp(0.7rem, 1.2vw, 1rem);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            letter-spacing: 1px;
+            -webkit-text-stroke: 0;
         }
 
         .container {
@@ -80,11 +215,12 @@
             border-radius: 16px;
             background: var(--card-bg);
             backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.45);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
             position: relative;
             transform-style: preserve-3d;
             transition: transform 0.2s ease;
+            margin-bottom: 50px;
         }
 
         h2 {
@@ -93,10 +229,19 @@
             text-align: center;
             margin-bottom: 10px;
             animation: fadeInDown 0.7s ease;
+            color: #0f172a;
         }
+
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .subtitle {
@@ -113,63 +258,94 @@
             white-space: nowrap;
             width: 0;
             margin: 0 auto 12px;
-            /* Fix: steps(19) matches character count, text-align:left prevents wiggling inside box */
             text-align: left;
             animation: typing 2.5s steps(19) forwards, cursorBlink 0.7s infinite;
         }
-        
-        /* Fix: Animate to 19ch (width of 'Registration Portal') instead of 100% */
-        @keyframes typing { 
-            from { width: 0; } 
-            to { width: 19ch; } 
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 19ch;
+            }
         }
-        @keyframes cursorBlink { 50% { border-color: transparent; } }
+
+        @keyframes cursorBlink {
+            50% {
+                border-color: transparent;
+            }
+        }
 
         label {
             margin-top: 15px;
             display: block;
-            color: var(--text-gray);
+            color: #334155;
             font-weight: 600;
             font-size: 0.85rem;
         }
 
-        input {
+        input,
+        select {
             width: 100%;
             padding: 12px 16px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid #334155;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #cbd5e1;
             border-radius: 8px;
-            color: var(--text-light);
+            color: #0f172a;
             font-size: 0.95rem;
             transition: 0.2s;
             animation: fadeSlide 0.6s ease forwards;
             opacity: 0;
-            box-sizing: border-box; /* Fixes padding issues */
+            box-sizing: border-box;
         }
 
-        input:focus {
+        input:focus,
+        select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 12px rgba(99,102,241,0.4);
+            background: #fff;
+            box-shadow: 0 0 12px rgba(2, 132, 199, 0.2);
         }
 
         /* Validation Styling */
-        input:invalid:not(:placeholder-shown) {
+        input:invalid:not(:placeholder-shown),
+        select:invalid:not(:placeholder-shown) {
             border-color: var(--error);
             box-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
         }
 
         input:disabled {
             text-align: center;
-            background: rgba(255,255,255,0.08);
+            background: rgba(0, 0, 0, 0.05);
             letter-spacing: 1px;
-            color: var(--text-gray);
+            color: #64748b;
             font-weight: bold;
         }
 
+        /* Fix for date input icon color - invert back to normal for light theme */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: none;
+            cursor: pointer;
+        }
+
+        /* Style for select options */
+        option {
+            background: #fff;
+            color: #0f172a;
+        }
+
         @keyframes fadeSlide {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         button {
@@ -178,37 +354,46 @@
             padding: 14px;
             border: none;
             border-radius: 8px;
-            background: linear-gradient(135deg, var(--primary), #818cf8);
+            background: linear-gradient(135deg, var(--primary), #0ea5e9);
             color: white;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: 0.3s;
-            box-shadow: 0 0 15px rgba(99,102,241,0.4);
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
             animation: fadeSlide 0.6s ease forwards;
             opacity: 0;
         }
 
         button:hover {
             transform: translateY(-3px) scale(1.02) rotateX(8deg);
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
         }
 
         button.processing::after {
             content: "";
-            width: 20px; height: 20px;
+            width: 20px;
+            height: 20px;
             border: 3px solid transparent;
             border-top-color: white;
             border-radius: 50%;
             position: absolute;
-            right: 15px; top: 50%;
+            right: 15px;
+            top: 50%;
             transform: translateY(-50%);
             animation: spin 0.7s linear infinite;
         }
-        @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+
+        @keyframes spin {
+            to {
+                transform: translateY(-50%) rotate(360deg);
+            }
+        }
 
         .code-decor {
             position: absolute;
-            top: -15px; left: 50%;
+            top: -15px;
+            left: 50%;
             transform: translateX(-50%);
             background: var(--primary);
             color: white;
@@ -217,25 +402,67 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.75rem;
             animation: neonPulse 2s ease-in-out infinite;
-        }
-        @keyframes neonPulse {
-            0% { box-shadow: 0 0 6px rgba(99,102,241,0.5); }
-            100% { box-shadow: 0 0 20px rgba(99,102,241,0.9); }
+            box-shadow: 0 0 10px rgba(2, 132, 199, 0.5);
         }
 
-        .hidden { display: none; }
+        @keyframes neonPulse {
+            0% {
+                box-shadow: 0 0 6px rgba(2, 132, 199, 0.5);
+            }
+
+            100% {
+                box-shadow: 0 0 20px rgba(2, 132, 199, 0.8);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
 
         .status-message {
             margin-top: 20px;
             padding: 12px;
             text-align: center;
             border-radius: 8px;
-            border: 1px solid rgba(99,102,241,0.5);
-            color: #818cf8;
-            background: rgba(99,102,241,0.1);
+            border: 1px solid rgba(2, 132, 199, 0.5);
+            color: var(--primary);
+            background: rgba(2, 132, 199, 0.1);
             animation: fadeSlide 0.4s ease forwards;
         }
 
+        @media (max-width: 1200px) {
+            .college-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .header-logo {
+                height: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+                width: calc(100% - 20px);
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            .subtitle {
+                font-size: 0.8rem;
+            }
+
+            input,
+            button,
+            select {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 
@@ -249,6 +476,27 @@
         <span style="left:90%; animation-delay:3s;"></span>
     </div>
 
+    <!-- Sponsor Strip -->
+    <div class="sponsor-strip">
+        <div class="sponsor-logo">SPONSOR 1</div>
+        <div class="sponsor-logo"><img src="./Resource/IIC_LOGO_transparent_final.png" alt="IIC"></div>
+        <div class="sponsor-logo"><img src="./Resource/MOE_LOGO_transparent_final.png" alt="MoE"></div>
+        <div class="sponsor-logo"><img src="./Resource/MIC_LOGO_transparent_final.png" alt="MIC"></div>
+        <div class="sponsor-logo">SPONSOR 5</div>
+    </div>
+
+    <!-- College Logo Text -->
+    <div class="college-header">
+        <img src="./Resource/AMJC_old_logo_transparent.png" alt="AMJC Logo" class="header-logo">
+        <div class="header-text">
+            <h1 class="college-name">
+                AGURCHAND MANMULL JAIN COLLEGE
+                <span class="college-subtitle">(A Unit of Sri S.S.Jain Educational Society)</span>
+            </h1>
+        </div>
+        <img src="./Resource/AMJC_New_Logo_transparent_v4.png" alt="AMJC New Logo" class="header-logo right-logo">
+    </div>
+
     <div class="container" id="cardContainer">
         <div class="code-decor">DEV_HACKS_2025</div>
 
@@ -256,27 +504,96 @@
         <div class="subtitle">Join the ultimate coding showdown</div>
 
         <form id="registrationForm">
-            <label>Full Name</label>
-            <!-- Only characters and spaces allowed -->
-            <input type="text" id="name" required pattern="[A-Za-z\s]+" title="Name must only contain letters and spaces" placeholder="John Doe">
+            <label>Name:</label>
+            <input type="text" id="name" required pattern="[A-Za-z\s]+"
+                title="Name must only contain letters and spaces" placeholder="Enter your name">
 
-            <label>Roll Number</label>
-            <!-- Only numbers allowed -->
-            <input type="text" id="rollno" required pattern="[0-9]+" title="Roll Number must only contain numbers" inputmode="numeric" placeholder="123456">
+            <label>Date of Birth:</label>
+            <input type="date" id="dob" required>
 
-            <label>College / University</label>
-            <!-- Letters, numbers, spaces and standard punctuation -->
-            <input type="text" id="college" required pattern="[A-Za-z0-9\s\.,&]+" title="Please enter a valid college name" placeholder="University Name">
+            <label>Gender:</label>
+            <select id="gender" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
 
-            <label>Email Address</label>
-            <input type="email" id="email" required placeholder="john@example.com">
+            <label>College Name:</label>
+            <input type="text" id="college" required pattern="[A-Za-z0-9\s\.,&]+"
+                title="Please enter a valid college name" placeholder="Enter college name">
 
-            <label>Mobile Number</label>
-            <!-- Exactly 10 digits -->
-            <input type="tel" id="mobile" pattern="[0-9]{10}" maxlength="10" title="Please enter a valid 10-digit mobile number" inputmode="numeric" required placeholder="9876543210">
+            <label>Department:</label>
+            <input type="text" id="department" required placeholder="Enter department">
 
-            <label>Registration Fee</label>
-            <input type="text" value="₹500.00" disabled>
+            <label>Year of Study:</label>
+            <select id="year" required>
+                <option value="" disabled selected>Select Year</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+                <option value="5">5th Year</option>
+            </select>
+
+            <label>Team Name:</label>
+            <input type="text" id="team_name" required placeholder="Enter team name">
+
+            <label>Number of Members:</label>
+            <select id="team_size" required>
+                <option value="" disabled selected>Select Number of Members</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+
+            <label>Team Leader Name:</label>
+            <input type="text" id="team_leader" required pattern="[A-Za-z\s]+"
+                title="Name must only contain letters and spaces" placeholder="Enter team leader name">
+
+            <label>Member 1 Name:</label>
+            <input type="text" id="member1" pattern="[A-Za-z\s]+" title="Name must only contain letters and spaces"
+                placeholder="Enter member 1 name">
+
+            <label>Member 2 Name:</label>
+            <input type="text" id="member2" pattern="[A-Za-z\s]+" title="Name must only contain letters and spaces"
+                placeholder="Enter member 2 name">
+
+            <label>Member 3 Name:</label>
+            <input type="text" id="member3" pattern="[A-Za-z\s]+" title="Name must only contain letters and spaces"
+                placeholder="Enter member 3 name">
+
+            <label>Mobile No:</label>
+            <input type="tel" id="mobile" pattern="[0-9]{10}" maxlength="10"
+                title="Please enter a valid 10-digit mobile number" inputmode="numeric" required
+                placeholder="Enter mobile number">
+
+            <label>WhatsApp No:</label>
+            <input type="tel" id="whatsapp" pattern="[0-9]{10}" maxlength="10"
+                title="Please enter a valid 10-digit WhatsApp number" inputmode="numeric" required
+                placeholder="Enter WhatsApp number">
+
+            <label>Email ID:</label>
+            <input type="email" id="email" required placeholder="Enter email address">
+
+            <label>Captcha:</label>
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 5px;">
+                <div id="captchaPreview"
+                    style="background: rgba(0, 0, 0, 0.05); padding: 10px; font-family: 'JetBrains Mono', monospace; font-weight: bold; letter-spacing: 3px; border-radius: 5px; user-select: none;">
+                    ABCD</div>
+                <button type="button" onclick="generateCaptcha()"
+                    style="width: auto; margin-top: 0; padding: 10px; font-size: 0.8rem;">↻</button>
+            </div>
+            <input type="text" id="captchaInput" required placeholder="Enter the code shown above"
+                style="margin-bottom: 5px;">
+            <div id="captchaError" style="color: var(--error); font-size: 0.8rem; display: none;">Incorrect Captcha,
+                please try again.</div>
+
+            <label>Registration Fee:</label>
+            <input type="text" value="₹100.00" disabled>
 
             <button type="submit">Proceed to Payment →</button>
         </form>
@@ -284,9 +601,10 @@
         <div id="paymentSection" class="hidden">
             <h2 style="margin-bottom:20px;">Secure Payment</h2>
 
-            <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:10px; text-align:center; margin-bottom:25px;">
+            <div
+                style="background:rgba(0,0,0,0.05); padding:20px; border-radius:10px; text-align:center; margin-bottom:25px;">
                 <div style="color:var(--text-gray); font-size:0.85rem;">Total Amount</div>
-                <div style="font-size:1.6rem; font-family:'JetBrains Mono'; font-weight:bold;">₹500.00</div>
+                <div style="font-size:1.6rem; font-family:'JetBrains Mono'; font-weight:bold;">₹100.00</div>
             </div>
 
             <button id="payBtn" onclick="makePayment()">Pay Now</button>
@@ -313,18 +631,49 @@
         };
 
         document.getElementById('name').addEventListener('input', restrictToLetters);
-        document.getElementById('rollno').addEventListener('input', restrictToNumbers);
+        document.getElementById('team_leader').addEventListener('input', restrictToLetters);
+        document.getElementById('member1').addEventListener('input', restrictToLetters);
+        document.getElementById('member2').addEventListener('input', restrictToLetters);
+        document.getElementById('member3').addEventListener('input', restrictToLetters);
         document.getElementById('mobile').addEventListener('input', restrictToNumbers);
+        document.getElementById('whatsapp').addEventListener('input', restrictToNumbers);
 
         // --- Form Handling ---
 
         form.style.opacity = "1";
         form.style.transition = "opacity 0.6s ease";
 
+        // --- Captcha Logic ---
+        function generateCaptcha() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            let captcha = "";
+            for (let i = 0; i < 4; i++) {
+                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById("captchaPreview").innerText = captcha;
+            document.getElementById("captchaInput").value = "";
+            document.getElementById("captchaError").style.display = "none";
+        }
+
+        // Initialize Captcha
+        generateCaptcha();
+
         form.addEventListener("submit", e => {
-            // HTML5 validation happens automatically before this event fires.
-            // If we are here, inputs are valid.
             e.preventDefault();
+
+            // Validate Captcha
+            const captchaInput = document.getElementById("captchaInput").value.toUpperCase();
+            const captchaCode = document.getElementById("captchaPreview").innerText;
+
+            if (captchaInput !== captchaCode) {
+                document.getElementById("captchaError").style.display = "block";
+                generateCaptcha(); // Refresh captcha on failure
+                return;
+            }
+
+            // HTML5 validation happens automatically before this event fires.
+            // If we are here, inputs are valid and Captcha is correct.
+
             form.style.opacity = "0";
 
             setTimeout(() => {
