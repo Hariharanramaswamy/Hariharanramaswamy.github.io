@@ -524,6 +524,140 @@
             padding-bottom: 5px;
             display: block;
         }
+
+        /* --- Modal Styles --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--primary);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            color: #10b981;
+            margin-bottom: 15px;
+            animation: bounceIn 0.8s ease;
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        .modal-message {
+            color: #475569;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .modal-btn {
+            background: var(--primary);
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: auto;
+            margin-top: 0;
+        }
+
+        .modal-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            60% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .captcha-container {
+            position: relative;
+        }
+
+        .verify-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            width: auto;
+            margin: 0;
+            box-shadow: none;
+            opacity: 1;
+        }
+
+        .verify-btn:hover {
+            background: var(--primary);
+            color: white;
+            box-shadow: none;
+            transform: translateY(-50%);
+        }
+
+        .verify-btn.success {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .verify-btn.error {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
     </style>
 </head>
 
@@ -698,8 +832,11 @@
                 <button type="button" onclick="generateCaptcha()"
                     style="width: auto; margin-top: 0; padding: 10px; font-size: 0.9rem;">↻ Refresh</button>
             </div>
-            <input type="text" id="captchaInput" required placeholder="Enter the code shown above"
-                style="margin-bottom: 5px;" autocomplete="off">
+            <div class="captcha-container">
+                <input type="text" id="captchaInput" required placeholder="Enter the code shown above"
+                    style="margin-bottom: 5px;" autocomplete="off">
+                <button type="button" id="verifyCaptchaBtn" class="verify-btn" onclick="verifyCaptcha()">Verify</button>
+            </div>
             <div id="captchaError" class="error-text">Incorrect code. Please try again.</div>
 
             <!-- Payment Details -->
@@ -715,8 +852,7 @@
                 <div style="text-align: center; margin: 20px 0;">
                     <div
                         style="background: white; padding: 15px; display: inline-block; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=UPI%3A%2F%2Fpay"
-                            alt="Payment QR Code" style="width: 150px; height: 150px;">
+                        <img src="Resource/QR.png" alt="Payment QR Code" style="width: 150px; height: 150px;">
                         <div style="font-size: 0.8rem; color: #64748b; margin-top: 5px; font-weight: 600;">Scan to Pay
                         </div>
                     </div>
@@ -724,7 +860,7 @@
 
                 <label>Transaction ID:</label>
                 <input type="text" id="transaction_id" required placeholder="Enter UPI Transaction ID"
-                    pattern="[A-Za-z0-9@._-]{8,}" title="Transaction ID must be at least 8 chars"
+                    pattern="[A-Za-z0-9@._\-]{8,}" title="Transaction ID must be at least 8 chars"
                     onchange="validateTransactionId(this)">
                 <div id="txnError" class="error-text">Invalid Transaction ID format.</div>
 
@@ -737,20 +873,28 @@
             <button type="submit" id="submitBtn">Register Team</button>
         </form>
 
+
+    </div>
+
+    <!-- Custom Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">✓</div>
+            <h3 class="modal-title">Success!</h3>
+            <p class="modal-message">Registration Completed Successfully.</p>
+            <button class="modal-btn" onclick="closeModal()">Awesome!</button>
+        </div>
     </div>
 
     <script>
+        // --- Configuration & Global State ---
         const CONFIG = {
             feePerMember: 100,
             minAge: 17,
             minSize: 4,
             maxSize: 6
         };
-
-        const form = document.getElementById("registrationForm");
-        const registrationFeeInput = document.getElementById('registration_fee');
-        const teamSizeSelect = document.getElementById('team_size');
-        const submitBtn = document.getElementById('submitBtn');
+        let captchaCode = "";
 
         // --- 1. Global Helpers ---
         const restrictToNumbers = (e) => e.target.value = e.target.value.replace(/[^0-9]/g, '');
@@ -758,6 +902,9 @@
 
         // --- 2. Team Logic ---
         function updateTeamFields() {
+            const teamSizeSelect = document.getElementById('team_size');
+            const registrationFeeInput = document.getElementById('registration_fee');
+
             const size = parseInt(teamSizeSelect.value) || 4;
             const fee = size * CONFIG.feePerMember;
             registrationFeeInput.value = `₹${fee}.00`;
@@ -770,11 +917,9 @@
                 6: document.getElementById('member6_container')
             };
 
-            // Logic: Size n means we need slots 2..n (since Leader is 1)
-            // Loop 2 to 6
             for (let i = 2; i <= 6; i++) {
                 const container = memberContainers[i];
-                if (!container) continue; // Safety
+                if (!container) continue;
 
                 const inputs = container.querySelectorAll('input');
 
@@ -785,9 +930,8 @@
                     container.classList.add('hidden');
                     inputs.forEach(inp => {
                         inp.removeAttribute('required');
-                        inp.value = ''; // Clear strict data
+                        inp.value = '';
                     });
-                    // Hide preview if exists
                     const img = container.querySelector('.preview-image');
                     if (img) img.style.display = 'none';
                 }
@@ -799,19 +943,16 @@
             const file = input.files[0];
             if (!file) return;
 
-            // Validate Size
             if (file.size > 1024 * 1024) {
                 alert("File size must be less than 1MB");
                 input.value = "";
                 return;
             }
-            // Validate Type
             if (!['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) {
                 alert("Only PNG and JPEG formats are allowed");
                 input.value = "";
                 return;
             }
-            // content -> preview
             const reader = new FileReader();
             reader.onload = function (e) {
                 const img = input.parentNode.querySelector('.preview-image');
@@ -866,20 +1007,20 @@
             }
         };
 
-        // --- 4. Captcha ---
-        let captchaCode = "";
-        const canvas = document.getElementById('captchaCanvas');
-        const ctx = canvas.getContext('2d');
 
+        // --- 4. Captcha ---
         window.generateCaptcha = function () {
+            const canvas = document.getElementById('captchaCanvas');
+            const ctx = canvas.getContext('2d');
             if (!ctx) return;
-            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // No I, 1, O, 0
+
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
             captchaCode = "";
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.font = "30px JetBrains Mono";
             ctx.fillStyle = "#333";
             ctx.textBaseline = "middle";
-            ctx.textAlign = "center"; // Center the text roughly
+            ctx.textAlign = "center";
 
             // Background noise
             for (let i = 0; i < 7; i++) {
@@ -908,66 +1049,168 @@
             }
             document.getElementById("captchaInput").value = "";
             document.getElementById("captchaError").style.display = "none";
+
+            // Reset Verify Button
+            const btn = document.getElementById("verifyCaptchaBtn");
+            btn.className = "verify-btn";
+            btn.innerText = "Verify";
+            btn.disabled = false;
+        };
+
+        window.verifyCaptcha = function () {
+            const input = document.getElementById("captchaInput");
+            const btn = document.getElementById("verifyCaptchaBtn");
+            const val = input.value.trim().toUpperCase();
+
+            if (!val) return;
+
+            if (val === captchaCode) {
+                btn.className = "verify-btn success";
+                btn.innerText = "Verified!";
+                document.getElementById("captchaError").style.display = "none";
+                btn.disabled = true;
+            } else {
+                btn.className = "verify-btn error";
+                btn.innerText = "Incorrect";
+                document.getElementById("captchaError").style.display = "block";
+                setTimeout(() => {
+                    btn.className = "verify-btn";
+                    btn.innerText = "Verify";
+                }, 2000);
+            }
         };
 
         // --- 5. Init ---
-        // Listeners for inputs
-        document.querySelectorAll('input[type="text"]').forEach(input => {
-            // Only apply literal restriction to name fields, not everything
-            if (input.id.includes('name') || input.id.includes('leader') || input.id.includes('member')) {
-                if (!input.id.includes('team_name')) { // Team name might allow numbers? UI said name logic
+        document.addEventListener('DOMContentLoaded', () => {
+            // Input restrictions
+            document.querySelectorAll('input[type="text"]').forEach(input => {
+                if ((input.id.includes('name') || input.id.includes('leader') || input.id.includes('member')) && !input.id.includes('team_name')) {
                     input.addEventListener('input', restrictToLetters);
                 }
-            }
-        });
-        document.getElementById('mobile').addEventListener('input', restrictToNumbers);
-        document.getElementById('whatsapp').addEventListener('input', restrictToNumbers);
+            });
+            document.getElementById('mobile').addEventListener('input', restrictToNumbers);
+            document.getElementById('whatsapp').addEventListener('input', restrictToNumbers);
 
-        // Initial set
-        document.addEventListener('DOMContentLoaded', () => {
+            // Card Tilt
+            const card = document.getElementById("cardContainer");
+            document.addEventListener("mousemove", e => {
+                const x = (window.innerWidth / 2 - e.clientX) / 40;
+                const y = (window.innerHeight / 2 - e.clientY) / 40;
+                card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+            });
+
+            // Initial setup
             updateTeamFields();
             generateCaptcha();
         });
 
-        // --- 6. Submit ---
-        form.addEventListener("submit", async e => {
+        const form = document.getElementById("registrationForm");
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Modal Logic
+        function showModal() {
+            document.getElementById("successModal").classList.add("active");
+        }
+
+        window.closeModal = function () {
+            document.getElementById("successModal").classList.remove("active");
+            form.reset();
+            updateTeamFields();
+            generateCaptcha();
+            document.querySelectorAll(".preview-image").forEach(img => img.style.display = "none");
+        };
+
+        form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            // Final Captcha Check
+            // --- Captcha validation ---
             if (document.getElementById("captchaInput").value.toUpperCase() !== captchaCode) {
                 document.getElementById("captchaError").style.display = "block";
                 return;
             }
 
-            // Lock UI
+            // --- Required file guards ---
+            const leaderIdFile = document.getElementById("team_leader_id").files[0];
+            const paymentFile = document.getElementById("payment_screenshot").files[0];
+
+            if (!leaderIdFile || !paymentFile) {
+                alert("Team Leader ID Card and Payment Screenshot are required.");
+                return;
+            }
+
+            // --- Lock UI ---
             submitBtn.disabled = true;
-            submitBtn.classList.add('processing');
+            submitBtn.classList.add("processing");
             submitBtn.innerText = "Registering...";
 
-            // Simulate Server
-            await new Promise(r => setTimeout(r, 2000));
+            try {
+                const formData = new FormData();
 
-            // Success
-            alert("Registration Successful!\nWe have received your payment details. You will receive a confirmation email shortly.");
+                // ===== 1. Team Leader (Member 1) =====
+                formData.append("member1Name", document.getElementById("team_leader").value);
+                formData.append("member1IdCard", leaderIdFile);
 
-            // Clean
-            form.reset();
-            submitBtn.classList.remove('processing');
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Register Team";
-            updateTeamFields();
-            generateCaptcha();
-            document.querySelectorAll('.preview-image').forEach(img => img.style.display = 'none');
+                // ===== 2. Personal Details =====
+                formData.append("dob", document.getElementById("dob").value);
+                formData.append("gender", document.getElementById("gender").value);
+
+                // ===== 3. College & Team Info =====
+                formData.append("college", document.getElementById("college").value);
+                formData.append("department", document.getElementById("department").value);
+                formData.append("year", document.getElementById("year").value);
+                formData.append("teamName", document.getElementById("team_name").value);
+
+                const teamSize = parseInt(document.getElementById("team_size").value);
+                formData.append("teamSize", teamSize);
+
+                // ===== 4. Dynamic Members (2–6) =====
+                for (let i = 2; i <= teamSize; i++) {
+                    const nameInput = document.getElementById(`member${i}`);
+                    const fileInput = document.getElementById(`member${i}_id`);
+
+                    if (nameInput && nameInput.value.trim() !== "") {
+                        formData.append(`member${i}Name`, nameInput.value.trim());
+                    }
+
+                    if (fileInput && fileInput.files.length > 0) {
+                        formData.append(`member${i}IdCard`, fileInput.files[0]);
+                    }
+                }
+
+                // ===== 5. Contact Details =====
+                formData.append("mobile", document.getElementById("mobile").value);
+                formData.append("whatsapp", document.getElementById("whatsapp").value);
+                formData.append("email", document.getElementById("email").value);
+
+                // ===== 6. Payment =====
+                formData.append("transactionId", document.getElementById("transaction_id").value);
+                formData.append("paymentScreenshot", paymentFile);
+
+                // ===== Fetch Call =====
+                const response = await fetch("http://localhost:8080/api/teams/register", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error("Server responded with error");
+                }
+
+                const message = await response.text();
+                console.log("Backend response:", message);
+
+                showModal(); // Use custom modal instead of alert
+
+            } catch (error) {
+                console.error("Submission error:", error);
+                alert("Registration failed. Check console for details.");
+            } finally {
+                // --- Unlock UI ---
+                submitBtn.disabled = false;
+                submitBtn.classList.remove("processing");
+                submitBtn.innerText = "Register Team";
+            }
         });
-
-        // Card Tilt
-        const card = document.getElementById("cardContainer");
-        document.addEventListener("mousemove", e => {
-            const x = (window.innerWidth / 2 - e.clientX) / 40;
-            const y = (window.innerHeight / 2 - e.clientY) / 40;
-            card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-        });
-
     </script>
 
 </body>
