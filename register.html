@@ -703,22 +703,22 @@
             <div class="member-box">
                 <span class="member-header">Team Leader (Member 1)</span>
                 <label>Name:</label>
-                <input type="text" id="team_leader" required pattern="[A-Za-z\s]+"
+                <input type="text" id="team_leader" name="member1Name" required pattern="[A-Za-z\s]+"
                     title="Name must only contain letters and spaces" placeholder="Enter team leader name">
 
                 <label>Upload ID Card (PNG/JPEG, Max 1MB):</label>
-                <input type="file" id="team_leader_id" accept="image/png, image/jpeg" required
+                <input type="file" id="team_leader_id" name="member1IdCard" accept="image/png, image/jpeg" required
                     onchange="handleFileUpload(this)">
                 <img id="preview_team_leader" class="preview-image" alt="Preview">
             </div>
 
             <!-- Personal Details (Leader) -->
             <label>Date of Birth (Min Age 17):</label>
-            <input type="date" id="dob" required onchange="validateDob(this)">
+            <input type="date" id="dob" name="dob" required onchange="validateDob(this)">
             <div id="dobError" class="error-text">You must be at least 17 years old.</div>
 
             <label>Gender:</label>
-            <select id="gender" required>
+            <select id="gender" name="gender" required>
                 <option value="" disabled selected>Select Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -727,14 +727,14 @@
 
             <!-- College & Team Info -->
             <label>College Name:</label>
-            <input type="text" id="college" required pattern="[A-Za-z0-9\s\.,&]+"
+            <input type="text" id="college" name="college" required pattern="[A-Za-z0-9\s\.,&]+"
                 title="Please enter a valid college name" placeholder="Enter college name">
 
             <label>Department:</label>
-            <input type="text" id="department" required placeholder="Enter department">
+            <input type="text" id="department" name="department" required placeholder="Enter department">
 
             <label>Year of Study:</label>
-            <select id="year" required>
+            <select id="year" name="year" required>
                 <option value="" disabled selected>Select Year</option>
                 <option value="1">1st Year</option>
                 <option value="2">2nd Year</option>
@@ -744,10 +744,10 @@
             </select>
 
             <label>Team Name:</label>
-            <input type="text" id="team_name" required placeholder="Enter team name">
+            <input type="text" id="team_name" name="teamName" required placeholder="Enter team name">
 
             <label>Total Number of Members (Including Leader):</label>
-            <select id="team_size" required onchange="updateTeamFields()">
+            <select id="team_size" name="teamSize" required onchange="updateTeamFields()">
                 <option value="" disabled selected>Select Total Team Size</option>
                 <option value="4">4 Members (Leader + 3)</option>
                 <option value="5">5 Members (Leader + 4)</option>
@@ -758,10 +758,11 @@
             <div id="member2_container" class="member-box hidden">
                 <span class="member-header">Member 2</span>
                 <label>Name:</label>
-                <input type="text" id="member2" pattern="[A-Za-z\s]+" title="Name must only contain letters and spaces"
-                    placeholder="Enter member 2 name">
+                <input type="text" id="member2" name="member2Name" pattern="[A-Za-z\s]+"
+                    title="Name must only contain letters and spaces" placeholder="Enter member 2 name">
                 <label>Upload ID Card (PNG/JPEG):</label>
-                <input type="file" id="member2_id" accept="image/png, image/jpeg" onchange="handleFileUpload(this)">
+                <input type="file" id="member2_id" name="member2IdCard" accept="image/png, image/jpeg"
+                    onchange="handleFileUpload(this)">
                 <img id="preview_member2" class="preview-image" alt="Preview">
             </div>
 
@@ -769,10 +770,11 @@
             <div id="member3_container" class="member-box hidden">
                 <span class="member-header">Member 3</span>
                 <label>Name:</label>
-                <input type="text" id="member3" pattern="[A-Za-z\s]+" title="Name must only contain letters and spaces"
-                    placeholder="Enter member 3 name">
+                <input type="text" id="member3" name="member3Name" pattern="[A-Za-z\s]+"
+                    title="Name must only contain letters and spaces" placeholder="Enter member 3 name">
                 <label>Upload ID Card (PNG/JPEG):</label>
-                <input type="file" id="member3_id" accept="image/png, image/jpeg" onchange="handleFileUpload(this)">
+                <input type="file" id="member3_id" name="member3IdCard" accept="image/png, image/jpeg"
+                    onchange="handleFileUpload(this)">
                 <img id="preview_member3" class="preview-image" alt="Preview">
             </div>
 
@@ -780,10 +782,11 @@
             <div id="member4_container" class="member-box hidden">
                 <span class="member-header">Member 4</span>
                 <label>Name:</label>
-                <input type="text" id="member4" pattern="[A-Za-z\s]+" title="Name must only contain letters and spaces"
-                    placeholder="Enter member 4 name">
+                <input type="text" id="member4" name="member4Name" pattern="[A-Za-z\s]+"
+                    title="Name must only contain letters and spaces" placeholder="Enter member 4 name">
                 <label>Upload ID Card (PNG/JPEG):</label>
-                <input type="file" id="member4_id" accept="image/png, image/jpeg" onchange="handleFileUpload(this)">
+                <input type="file" id="member4_id" name="member4IdCard" accept="image/png, image/jpeg"
+                    onchange="handleFileUpload(this)">
                 <img id="preview_member4" class="preview-image" alt="Preview">
             </div>
 
@@ -791,10 +794,11 @@
             <div id="member5_container" class="member-box hidden">
                 <span class="member-header">Member 5</span>
                 <label>Name:</label>
-                <input type="text" id="member5" pattern="[A-Za-z\s]+" title="Name must only contain letters and spaces"
-                    placeholder="Enter member 5 name">
+                <input type="text" id="member5" name="member5Name" pattern="[A-Za-z\s]+"
+                    title="Name must only contain letters and spaces" placeholder="Enter member 5 name">
                 <label>Upload ID Card (PNG/JPEG):</label>
-                <input type="file" id="member5_id" accept="image/png, image/jpeg" onchange="handleFileUpload(this)">
+                <input type="file" id="member5_id" name="member5IdCard" accept="image/png, image/jpeg"
+                    onchange="handleFileUpload(this)">
                 <img id="preview_member5" class="preview-image" alt="Preview">
             </div>
 
@@ -802,27 +806,28 @@
             <div id="member6_container" class="member-box hidden">
                 <span class="member-header">Member 6</span>
                 <label>Name:</label>
-                <input type="text" id="member6" pattern="[A-Za-z\s]+" title="Name must only contain letters and spaces"
-                    placeholder="Enter member 6 name">
+                <input type="text" id="member6" name="member6Name" pattern="[A-Za-z\s]+"
+                    title="Name must only contain letters and spaces" placeholder="Enter member 6 name">
                 <label>Upload ID Card (PNG/JPEG):</label>
-                <input type="file" id="member6_id" accept="image/png, image/jpeg" onchange="handleFileUpload(this)">
+                <input type="file" id="member6_id" name="member6IdCard" accept="image/png, image/jpeg"
+                    onchange="handleFileUpload(this)">
                 <img id="preview_member6" class="preview-image" alt="Preview">
             </div>
 
             <!-- Contact Details -->
             <label>Mobile No:</label>
-            <input type="tel" id="mobile" pattern="[0-9]{10}" maxlength="10"
+            <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" maxlength="10"
                 title="Please enter a valid 10-digit mobile number" inputmode="numeric" required
                 placeholder="Enter mobile number" oninput="checkContactDuplicates()">
             <div id="mobileWarning" class="warning-text"></div>
 
             <label>WhatsApp No:</label>
-            <input type="tel" id="whatsapp" pattern="[0-9]{10}" maxlength="10"
+            <input type="tel" id="whatsapp" name="whatsapp" pattern="[0-9]{10}" maxlength="10"
                 title="Please enter a valid 10-digit WhatsApp number" inputmode="numeric" required
                 placeholder="Enter WhatsApp number" oninput="checkContactDuplicates()">
 
             <label>Email ID:</label>
-            <input type="email" id="email" required placeholder="Enter email address">
+            <input type="email" id="email" name="email" required placeholder="Enter email address">
 
             <!-- Canvas Captcha -->
             <label>Security Check:</label>
@@ -859,14 +864,14 @@
                 </div>
 
                 <label>Transaction ID:</label>
-                <input type="text" id="transaction_id" required placeholder="Enter UPI Transaction ID"
-                    pattern="[A-Za-z0-9@._\-]{8,}" title="Transaction ID must be at least 8 chars"
-                    onchange="validateTransactionId(this)">
+                <input type="text" id="transaction_id" name="transactionId" required
+                    placeholder="Enter UPI Transaction ID" pattern="[A-Za-z0-9@._\-]{8,}"
+                    title="Transaction ID must be at least 8 chars" onchange="validateTransactionId(this)">
                 <div id="txnError" class="error-text">Invalid Transaction ID format.</div>
 
                 <label>Upload Payment Screenshot (PNG/JPEG, Max 1MB):</label>
-                <input type="file" id="payment_screenshot" accept="image/png, image/jpeg" required
-                    onchange="handleFileUpload(this)">
+                <input type="file" id="payment_screenshot" name="paymentScreenshot" accept="image/png, image/jpeg"
+                    required onchange="handleFileUpload(this)">
                 <img id="preview_payment" class="preview-image" alt="Preview">
             </div>
 
@@ -874,16 +879,6 @@
         </form>
 
 
-    </div>
-
-    <!-- Custom Success Modal -->
-    <div class="modal-overlay" id="successModal">
-        <div class="modal-content">
-            <div class="modal-icon">✓</div>
-            <h3 class="modal-title">Success!</h3>
-            <p class="modal-message">Registration Completed Successfully.</p>
-            <button class="modal-btn" onclick="closeModal()">Awesome!</button>
-        </div>
     </div>
 
     <script>
@@ -895,6 +890,7 @@
             maxSize: 6
         };
         let captchaCode = "";
+        let isCaptchaVerified = false;
 
         // --- 1. Global Helpers ---
         const restrictToNumbers = (e) => e.target.value = e.target.value.replace(/[^0-9]/g, '');
@@ -925,10 +921,14 @@
 
                 if (i <= size) {
                     container.classList.remove('hidden');
-                    inputs.forEach(inp => inp.setAttribute('required', 'true'));
+                    inputs.forEach(inp => {
+                        inp.removeAttribute('disabled'); // Enable input
+                        inp.setAttribute('required', 'true');
+                    });
                 } else {
                     container.classList.add('hidden');
                     inputs.forEach(inp => {
+                        inp.setAttribute('disabled', 'true'); // Disable so FormData ignores it
                         inp.removeAttribute('required');
                         inp.value = '';
                     });
@@ -1007,12 +1007,18 @@
             }
         };
 
-
         // --- 4. Captcha ---
         window.generateCaptcha = function () {
             const canvas = document.getElementById('captchaCanvas');
             const ctx = canvas.getContext('2d');
             if (!ctx) return;
+
+            // Reset verification state
+            isCaptchaVerified = false;
+            const btn = document.getElementById("verifyCaptchaBtn");
+            btn.className = "verify-btn";
+            btn.innerText = "Verify";
+            btn.disabled = false;
 
             const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
             captchaCode = "";
@@ -1049,12 +1055,6 @@
             }
             document.getElementById("captchaInput").value = "";
             document.getElementById("captchaError").style.display = "none";
-
-            // Reset Verify Button
-            const btn = document.getElementById("verifyCaptchaBtn");
-            btn.className = "verify-btn";
-            btn.innerText = "Verify";
-            btn.disabled = false;
         };
 
         window.verifyCaptcha = function () {
@@ -1069,10 +1069,12 @@
                 btn.innerText = "Verified!";
                 document.getElementById("captchaError").style.display = "none";
                 btn.disabled = true;
+                isCaptchaVerified = true;
             } else {
                 btn.className = "verify-btn error";
                 btn.innerText = "Incorrect";
                 document.getElementById("captchaError").style.display = "block";
+                isCaptchaVerified = false;
                 setTimeout(() => {
                     btn.className = "verify-btn";
                     btn.innerText = "Verify";
@@ -1084,7 +1086,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Input restrictions
             document.querySelectorAll('input[type="text"]').forEach(input => {
-                if ((input.id.includes('name') || input.id.includes('leader') || input.id.includes('member')) && !input.id.includes('team_name')) {
+                const id = input.id;
+                // Apply strict letter restrictions only to name fields
+                if ((id.includes('leader') || id.includes('member')) && !id.includes('team_name')) {
                     input.addEventListener('input', restrictToLetters);
                 }
             });
@@ -1107,29 +1111,17 @@
         const form = document.getElementById("registrationForm");
         const submitBtn = document.getElementById('submitBtn');
 
-        // Modal Logic
-        function showModal() {
-            document.getElementById("successModal").classList.add("active");
-        }
-
-        window.closeModal = function () {
-            document.getElementById("successModal").classList.remove("active");
-            form.reset();
-            updateTeamFields();
-            generateCaptcha();
-            document.querySelectorAll(".preview-image").forEach(img => img.style.display = "none");
-        };
-
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            // --- Captcha validation ---
-            if (document.getElementById("captchaInput").value.toUpperCase() !== captchaCode) {
+            // --- Captcha Guard ---
+            if (!isCaptchaVerified) {
                 document.getElementById("captchaError").style.display = "block";
+                document.getElementById("captchaError").innerText = "Please verify the captcha first.";
                 return;
             }
 
-            // --- Required file guards ---
+            // --- Required file guards (Fallback check) ---
             const leaderIdFile = document.getElementById("team_leader_id").files[0];
             const paymentFile = document.getElementById("payment_screenshot").files[0];
 
@@ -1142,75 +1134,34 @@
             submitBtn.disabled = true;
             submitBtn.classList.add("processing");
             submitBtn.innerText = "Registering...";
-
             try {
-                const formData = new FormData();
+                const formData = new FormData(form);
 
-                // ===== 1. Team Leader (Member 1) =====
-                formData.append("member1Name", document.getElementById("team_leader").value);
-                formData.append("member1IdCard", leaderIdFile);
-
-                // ===== 2. Personal Details =====
-                formData.append("dob", document.getElementById("dob").value);
-                formData.append("gender", document.getElementById("gender").value);
-
-                // ===== 3. College & Team Info =====
-                formData.append("college", document.getElementById("college").value);
-                formData.append("department", document.getElementById("department").value);
-                formData.append("year", document.getElementById("year").value);
-                formData.append("teamName", document.getElementById("team_name").value);
-
-                const teamSize = parseInt(document.getElementById("team_size").value);
-                formData.append("teamSize", teamSize);
-
-                // ===== 4. Dynamic Members (2–6) =====
-                for (let i = 2; i <= teamSize; i++) {
-                    const nameInput = document.getElementById(`member${i}`);
-                    const fileInput = document.getElementById(`member${i}_id`);
-
-                    if (nameInput && nameInput.value.trim() !== "") {
-                        formData.append(`member${i}Name`, nameInput.value.trim());
-                    }
-
-                    if (fileInput && fileInput.files.length > 0) {
-                        formData.append(`member${i}IdCard`, fileInput.files[0]);
-                    }
-                }
-
-                // ===== 5. Contact Details =====
-                formData.append("mobile", document.getElementById("mobile").value);
-                formData.append("whatsapp", document.getElementById("whatsapp").value);
-                formData.append("email", document.getElementById("email").value);
-
-                // ===== 6. Payment =====
-                formData.append("transactionId", document.getElementById("transaction_id").value);
-                formData.append("paymentScreenshot", paymentFile);
-
-                // ===== Fetch Call =====
                 const response = await fetch("http://localhost:8080/api/teams/register", {
                     method: "POST",
                     body: formData
                 });
 
                 if (!response.ok) {
-                    throw new Error("Server responded with error");
+                    const text = await response.text();
+                    throw new Error(text || "Registration failed");
                 }
 
-                const message = await response.text();
-                console.log("Backend response:", message);
+                const result = await response.json();
 
-                showModal(); // Use custom modal instead of alert
+                // teamId must come from backend
+                window.location.href = `id-cards.html?teamId=${result.teamId}`;
 
             } catch (error) {
                 console.error("Submission error:", error);
-                alert("Registration failed. Check console for details.");
-            } finally {
-                // --- Unlock UI ---
+                alert("Registration failed. Please try again.\nError: " + error.message);
+
                 submitBtn.disabled = false;
                 submitBtn.classList.remove("processing");
                 submitBtn.innerText = "Register Team";
             }
         });
+
     </script>
 
 </body>

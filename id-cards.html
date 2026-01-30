@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Successful | Hackathon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- QRCode.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --bg-color: #f8fafc;
+            --text-color: #0f172a;
+            --card-bg: #ffffff;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --success: #10b981;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg-color);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 30%, #ffffff 0%, #cbd5e1 100%);
+            z-index: -2;
+        }
+
+        header {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding-bottom: 50px;
+        }
+
+        /* ID Card Style */
+        .id-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+            transition: transform 0.3s ease;
+            position: relative;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .id-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 15px;
+            text-align: center;
+            color: white;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .card-body {
+            padding: 25px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .photo-placeholder {
+            width: 100px;
+            height: 100px;
+            background: #e2e8f0;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 2rem;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .member-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .member-role {
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .qr-container {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 15px;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            border-top: 1px solid #f1f5f9;
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+        }
+
+        /* Download Section & Button */
+        .download-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            padding-bottom: 60px;
+            /* Space for fixed home button */
+            z-index: 10;
+        }
+
+        .btn-download {
+            background-color: var(--success);
+            color: #ffffff;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+            background-color: #059669;
+        }
+
+        .btn-download:active {
+            transform: translateY(0);
+        }
+
+        .btn-home {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+            transition: 0.2s;
+            z-index: 100;
+        }
+
+        .btn-home:hover {
+            transform: scale(1.05);
+        }
+
+        .error-box {
+            background: #ffe4e6;
+            color: #be123c;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #fecdd3;
+        }
+
+        @media print {
+
+            /* Remove non-PDF elements */
+            body::before,
+            header,
+            .download-container,
+            .btn-home {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+            }
+
+            #pdf-area {
+                width: 100%;
+                margin: 0;
+            }
+
+            /* IMPORTANT: no grid, no flex */
+            .container {
+                display: block !important;
+                width: 100%;
+                max-width: none;
+            }
+
+            .id-card {
+                display: inline-block;
+                width: 85mm;
+                height: 54mm;
+                margin: 6mm;
+                vertical-align: top;
+
+                box-shadow: none;
+                border: 1px solid #ccc;
+
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            * {
+                box-shadow: none !important;
+                transition: none !important;
+            }
+        }
+
+        .id-card {
+            width: 85mm;
+            height: 54mm;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Registration Successful</h1>
+        <p style="color: #64748b; margin-top: 5px;">Here are your team's generated ID cards</p>
+    </header>
+
+    <div id="pdf-area">
+        <div class="container" id="cardsContainer">
+            <!-- Cards will be injected here -->
+            <div style="width: 100%; text-align: center; grid-column: 1/-1;">
+                Loading ID Cards...
+            </div>
+        </div>
+    </div>
+
+    <!-- Download Section -->
+    <div id="download-section" class="download-container">
+        <button id="btn-download" class="btn-download">
+            Download ID Cards
+        </button>
+    </div>
+
+    <a href="index.html" class="btn-home">Return Home</a>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const teamId = params.get("teamId");
+
+        if (!teamId) {
+            showError("Invalid or missing Team ID");
+            throw new Error("teamId missing in URL");
+        }
+        (async function loadTeam() {
+            try {
+                const res = await fetch(`http://localhost:8080/api/teams/${teamId}`);
+                if (!res.ok) throw new Error("Failed to load team data");
+
+                const data = await res.json();
+                renderCards(data);
+            } catch (err) {
+                console.error(err);
+                showError("Failed to load ID cards. Please try again.");
+            }
+        })();
+
+
+        document.getElementById('btn-download').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-download');
+            const originalText = btn.innerText;
+
+            try {
+                btn.innerText = 'Downloading...';
+                btn.disabled = true;
+
+                // Call backend API to generate PDF
+                const response = await fetch(`http://localhost:8080/api/teams/${teamId}/id-cards/pdf`);
+
+                if (!response.ok) {
+                    throw new Error('Failed to download PDF');
+                }
+
+                // Create blob and trigger download
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `id-cards-${teamId}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+
+                // Cleanup
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+            } catch (error) {
+                console.error('Error downloading PDF:', error);
+                alert('Failed to download PDF. Please try again.');
+            } finally {
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        });
+
+
+        function showError(msg) {
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = `<div class="error-box" style="grid-column: 1/-1;">${msg}</div>`;
+        }
+
+        function renderCards(data) {
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = ""; // Clear loader
+
+            const members = [];
+
+            // 1. Add Leader
+            members.push({
+                name: data.member1Name,
+                role: "Team Leader"
+            });
+
+            // 2. Add Other Members
+            const size = parseInt(data.teamSize) || 4;
+            for (let i = 2; i <= size; i++) {
+                const name = data[`member${i}Name`];
+                if (name) {
+                    members.push({
+                        name: name,
+                        role: "Team Member"
+                    });
+                }
+            }
+
+            // 3. Render Each Card
+            members.forEach((member, index) => {
+                const card = document.createElement('div');
+                card.className = "id-card";
+
+                // Unique DOM ID for QR Code
+                const qrId = `qrcode-${index}`;
+
+                card.innerHTML = `
+                     <div class="card-header">
+                         <h3>DEV HACKS 2025</h3>
+                     </div>
+                     <div class="card-body">
+                         <div class="photo-placeholder user-icon">👤</div>
+                         <div class="member-name">${member.name}</div>
+                         <div class="member-role">${member.role}</div>
+                         
+                         <div class="qr-container" id="${qrId}"></div>
+                         
+                         <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 5px;">${data.college || "College Name"}</div>
+                         <div style="font-size: 0.85rem; color: #64748b;">${data.teamName || "Team Name"}</div>
+                     </div>
+                     <div class="card-footer">
+                         <div style="font-size: 0.75rem; color: #94a3b8; letter-spacing: 0.5px;">OFFICIAL PARTICIPANT</div>
+                     </div>
+                 `;
+
+                container.appendChild(card);
+
+                // Content: Plain Text (Team Name & Member Name)
+                const qrContent = `Team Name: ${data.teamName || "Unknown Team"}\nMember Name: ${member.name}`;
+
+                new QRCode(document.getElementById(qrId), {
+                    text: qrContent,
+                    width: 100,
+                    height: 100,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            });
+        }
+    </script>
+
+</body>
+
+</html>
