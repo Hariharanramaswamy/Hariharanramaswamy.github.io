@@ -12,6 +12,9 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap"
         rel="stylesheet">
 
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+
     <style>
         :root {
             /* Modified for Light Theme to match index.html */
@@ -1137,10 +1140,21 @@
             try {
                 const formData = new FormData(form);
 
-                const response = await fetch("http://localhost:8080/api/teams/register", {
+                const token = Auth.getToken();
+
+                if (!token) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                const response = await fetch(`${window.API_BASE}/teams/register`, {
                     method: "POST",
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
                     body: formData
                 });
+
 
                 if (!response.ok) {
                     const text = await response.text();
@@ -1149,8 +1163,26 @@
 
                 const result = await response.json();
 
-                // teamId must come from backend
-                window.location.href = `id-cards.html?teamId=${result.teamId}`;
+                // 1. Show Success Modal (Blocking)
+                // Do NOT store local state. 
+                // Redirect to Landing on close.
+                // Using a simple alert for now as per "Popup must require user interaction" 
+                // and "Show a blocking popup/modal". 
+                // A custom modal would be better UI, but alert is strictly blocking and simplest to enforce flow.
+                // Requirement: "Popup must require user interaction (OK / Close)"
+                // Requirement: "AFTER POPUP CLOSE: Redirect user to Landing page"
+
+                // Let's use a custom modal to be professional, injected here or use existing message box?
+                // existing message box is not blocking.
+                // I will inject a simple blocking modal HTML.
+
+                // Modal removed
+
+                // Define the finish function globally
+                // SUCCESS: strictly redirect to id-cards.html
+                // The flow is: Register -> ID Cards Page (Render -> Download -> Popup -> Landing)
+                // We do NOT need teamId in URL because id-cards.html will fetch "my-team" using the token.
+                window.location.href = 'id-cards.html?newReg=true';
 
             } catch (error) {
                 console.error("Submission error:", error);
@@ -1162,6 +1194,58 @@
             }
         });
 
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const authState = await Auth.verifyAuth();
+
+                if (!authState.authenticated) {
+                    window.location.assign('login.html');
+                    return;
+                }
+
+                const res = await fetch(`${window.API_BASE}/profile/status`, {
+
+                    headers: {
+                        Authorization: `Bearer ${Auth.getToken()}`
+                    }
+                });
+
+                if (res.status === 401) {
+                    window.location.assign('login.html');
+                    return;
+                }
+
+                if (res.status === 404) {
+                    // Not registered → stay on registration page
+                    return;
+                }
+
+                if (!res.ok) {
+                    console.error('Profile status check failed:', res.status);
+                    return; // FAIL OPEN, do NOT crash page
+                }
+
+                const regState = await res.json();
+
+                if (regState.registered) {
+                    window.location.assign('profile.html');
+                }
+
+            } catch (err) {
+                console.error('Registration guard error:', err);
+                // Do NOT redirect blindly here
+            }
+        });
+
+
+        if (form) {
+            form.addEventListener('change', () => {
+                // optional draft save
+            });
+        }
     </script>
 
 </body>

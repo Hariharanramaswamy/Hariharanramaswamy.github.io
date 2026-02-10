@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hackathon 2026 | AGURCHAND MANMULL JAIN COLLEGE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap');
 
@@ -463,6 +466,146 @@
                 transform: scale(1);
             }
         }
+
+        /* Shared Scroll Animation */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .scroll-animate.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Rules Section Styles (Light Theme) */
+        .rules-section {
+            width: 100%;
+            padding: 80px 20px;
+            color: var(--text-color);
+            position: relative;
+            margin-top: auto;
+            background: rgba(255, 255, 255, 0.5);
+            /* Subtle blend */
+            border-top: 1px solid var(--border-color);
+        }
+
+
+
+        .rules-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .rules-section h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--text-color);
+            text-shadow: none;
+            letter-spacing: 2px;
+        }
+
+        .rules-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            gap: 20px;
+        }
+
+        .rules-list li {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            padding: 24px 30px;
+            position: relative;
+            background: #ffffff;
+            border-left: 5px solid var(--primary-glow);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: #334155;
+        }
+
+        .rules-list li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .rules-section {
+                padding: 50px 15px;
+            }
+
+            .rules-list li {
+                font-size: 1rem;
+                padding: 15px 20px;
+            }
+
+            .rules-list li {
+                font-size: 1rem;
+                padding: 15px 20px;
+            }
+        }
+
+        .auth-btn {
+            display: inline-block;
+            padding: 10px 25px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            text-decoration: none;
+            color: #fff;
+            background: var(--primary-glow);
+            border-radius: 4px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(2, 132, 199, 0.3);
+            filter: brightness(1.1);
+        }
+
+        /* Main Header */
+        .main-header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px 30px;
+            width: 100%;
+            background: transparent;
+            z-index: 1000;
+            position: relative;
+        }
+
+        /* Top Right Login Button */
+        .top-login-btn {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            text-decoration: none;
+            color: #fff;
+            background: var(--primary-glow);
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-login-btn:hover {
+            background: #0369a1;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(2, 132, 199, 0.3);
+        }
     </style>
 </head>
 
@@ -470,6 +613,11 @@
 
     <!-- Particle Background -->
     <canvas id="particles-js"></canvas>
+
+    <!-- Main Header -->
+    <div class="main-header">
+        <a href="login.html" id="topRightLoginBtn" class="top-login-btn">LOGIN</a>
+    </div>
 
     <!-- Sponsor Strip -->
     <div class="sponsor-strip">
@@ -501,9 +649,13 @@
                         class="header-logo right-logo">
                 </div>
 
-                <h2 class="hackathon-title">HACKATHON<br>2026</h2>
-                <div class="hackathon-subtitle">National Level 24-Hour Hackathon</div>
-                <a href="./register.html" class="register-btn">REGISTER NOW</a>
+                <div class="scroll-animate">
+                    <h2 class="hackathon-title">HACKATHON<br>2026</h2>
+                    <div class="hackathon-subtitle">National Level 24-Hour Hackathon</div>
+
+                    <!-- Register Button (Action depends on Auth) -->
+                    <a href="#" onclick="handleRegisterClick(event)" class="register-btn">REGISTER NOW</a>
+                </div>
             </div>
 
             <!-- Right Timer Content -->
@@ -529,6 +681,29 @@
             </div>
         </div>
     </div>
+
+    <!-- Rules & Regulations Section -->
+    <section class="rules-section scroll-animate" id="rulesSection">
+        <div class="rules-container">
+            <h2>RULES & REGULATIONS</h2>
+            <ul class="rules-list">
+                <li>Participants must report 10–15 minutes early, carry a valid ID, and remain in the venue until the
+                    contest ends.</li>
+                <li>This is a Bring Your Own Laptop (BYOL) event. Participants must use only their own fully charged,
+                    properly working laptops.</li>
+                <li>Electronic gadgets other than laptops (mobiles, smartwatches, pen drives, dongles, earphones, etc.)
+                    are strictly prohibited.</li>
+                <li>No communication, discussion, tab switching, external websites, or copy-pasting of code is allowed
+                    during the contest.</li>
+                <li>The contest will follow strict timings. No extra time will be provided.</li>
+                <li>Participants must follow platform-specific rules and report technical issues immediately.</li>
+                <li>Re-login, restart, or laptop change is allowed only with coordinator permission.</li>
+                <li>Impersonation, malpractice, or misbehavior will result in immediate disqualification or ban.</li>
+                <li>Participants are responsible for saving and submitting their solutions before the contest ends.</li>
+                <li>The decision of judges and event leads is final and binding.</li>
+            </ul>
+        </div>
+    </section>
 
     <!-- Scripts -->
     <script>
@@ -561,6 +736,85 @@
 
         setInterval(updateTimer, 1000);
         updateTimer(); // Initial call
+
+        // Unified Scroll Animation (Repeating)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                } else {
+                    entry.target.classList.remove('in-view'); // Reset when out of view
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        // Observe all elements with .scroll-animate class
+        document.querySelectorAll('.scroll-animate').forEach((el) => {
+            observer.observe(el);
+        });
+    </script>
+
+    <!-- Auth Logic -->
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const loginBtn = document.getElementById('topRightLoginBtn');
+            const registerBtn = document.querySelector('.register-btn');
+
+            // Default (logged out)
+            if (loginBtn) {
+                loginBtn.innerText = 'LOGIN';
+                loginBtn.href = 'login.html';
+            }
+
+            if (registerBtn) {
+                registerBtn.onclick = handleRegisterClick;
+            }
+
+            // Backend decides auth
+            const authState = await Auth.verifyAuth();
+
+            if (!authState.authenticated) return;
+
+            const user = authState.user;
+
+            // Logged-in UI
+            if (loginBtn) {
+                loginBtn.innerHTML = '<i class="fas fa-user-circle"></i> PROFILE';
+                loginBtn.style.background = 'transparent';
+                loginBtn.style.color = '#0284c7';
+                loginBtn.style.border = '1px solid #0284c7';
+
+                loginBtn.href =
+                    user.role === 'ADMIN' || user.role === 'ROLE_ADMIN'
+                        ? 'admin-dashboard.html'
+                        : 'profile.html';
+            }
+        });
+
+        function handleRegisterClick(e) {
+            e.preventDefault();
+
+            Auth.verifyAuth().then(authState => {
+                if (!authState.authenticated) {
+                    window.location.assign('login.html');
+                    return;
+                }
+
+                const user = authState.user;
+
+                if (user.role === 'ADMIN' || user.role === 'ROLE_ADMIN') {
+                    window.location.assign('admin-dashboard.html');
+                } else {
+                    window.location.assign('register.html');
+                }
+            });
+        }
     </script>
 </body>
 
