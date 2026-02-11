@@ -194,9 +194,10 @@ async function handleDecision(teamId, status) {
                 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
-                status: status,
+                decision: status,
                 reviewedBy: reviewer
             })
+
         });
 
         if (res.status === 409) {
