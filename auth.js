@@ -6,7 +6,41 @@ const Auth = {
     },
 
     // --------------------
-    // LOGIN (UNCHANGED)
+    // SIGNUP
+    // --------------------
+    async signup(username, password) {
+        try {
+            const res = await fetch(`${window.API_BASE}/auth/signup`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                return {
+                    success: false,
+                    message: data.message || 'Signup failed'
+                };
+            }
+
+            return {
+                success: true,
+                message: 'Signup successful'
+            };
+
+        } catch (e) {
+            console.error(e);
+            return {
+                success: false,
+                message: 'Network error'
+            };
+        }
+    },
+
+    // --------------------
+    // LOGIN
     // --------------------
     async login(username, password) {
         try {
@@ -47,12 +81,16 @@ const Auth = {
             };
         }
     },
-            getToken() {
-            return localStorage.getItem(this.KEYS.TOKEN);
-            },
 
     // --------------------
-    // BACKEND VERIFICATION (THIS WAS MISSING)
+    // TOKEN
+    // --------------------
+    getToken() {
+        return localStorage.getItem(this.KEYS.TOKEN);
+    },
+
+    // --------------------
+    // BACKEND VERIFICATION
     // --------------------
     async verifyAuth() {
         const token = localStorage.getItem(this.KEYS.TOKEN);
@@ -65,7 +103,7 @@ const Auth = {
             const res = await fetch(`${window.API_BASE}/auth/me`, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 }
             });
 
@@ -75,7 +113,6 @@ const Auth = {
 
             const user = await res.json();
 
-            // keep frontend state in sync
             if (user.username) {
                 localStorage.setItem(this.KEYS.USERNAME, user.username);
             }
@@ -85,7 +122,7 @@ const Auth = {
 
             return {
                 authenticated: true,
-                user: user
+                user
             };
 
         } catch (e) {
@@ -95,7 +132,7 @@ const Auth = {
     },
 
     // --------------------
-    // LOGOUT (UNCHANGED)
+    // LOGOUT
     // --------------------
     logout() {
         localStorage.removeItem(this.KEYS.TOKEN);
@@ -103,16 +140,17 @@ const Auth = {
         localStorage.removeItem(this.KEYS.ROLE);
         window.location.assign('index.html');
     },
+
+    // --------------------
+    // CURRENT USER
+    // --------------------
     getUser() {
         const username = localStorage.getItem(this.KEYS.USERNAME);
         const role = localStorage.getItem(this.KEYS.ROLE);
 
         if (!username) return null;
-
         return { username, role };
     }
 };
-
-
 
 window.Auth = Auth;
