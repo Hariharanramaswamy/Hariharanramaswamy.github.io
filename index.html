@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hackathon 2026 | AGURCHAND MANMULL JAIN COLLEGE</title>
+    <title>AMJC-NEXATHON 26 | AGURCHAND MANMULL JAIN COLLEGE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -29,6 +29,10 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -606,6 +610,128 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(2, 132, 199, 0.3);
         }
+
+        /* Domains Section */
+        .domains-section {
+            width: 100%;
+            padding: 80px 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .domains-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .domains-section h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--text-color);
+            letter-spacing: 2px;
+        }
+
+        .domains-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .domain-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px 24px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            cursor: default;
+        }
+
+        .domain-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(2, 132, 199, 0.15);
+            border-color: var(--primary-glow);
+        }
+
+        .domain-card .domain-icon {
+            font-size: 2.4rem;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .domain-card .domain-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0f172a;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .domains-section {
+                padding: 50px 15px;
+            }
+
+            .domains-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 16px;
+            }
+
+            .domain-card {
+                padding: 22px 18px;
+            }
+        }
+
+        /* Feedback Button */
+        .feedback-section {
+            width: 100%;
+            padding: 50px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .feedback-btn {
+            display: inline-block;
+            padding: 14px 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            background: var(--primary-glow);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+            text-decoration: none;
+        }
+
+        .feedback-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.45);
+        }
+
+        /* Fade-in animation for hero */
+        .fade-in {
+            animation: fadeInUp 1s ease both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 
@@ -650,8 +776,8 @@
                 </div>
 
                 <div class="scroll-animate">
-                    <h2 class="hackathon-title">HACKATHON<br>2026</h2>
-                    <div class="hackathon-subtitle">National Level 24-Hour Hackathon</div>
+                    <h2 class="hackathon-title">AMJC-NEXATHON<br>26</h2>
+                    <div class="hackathon-subtitle">Innovation Starts Here</div>
 
                     <!-- Register Button (Action depends on Auth) -->
                     <a href="#" onclick="handleRegisterClick(event)" class="register-btn">REGISTER NOW</a>
@@ -682,10 +808,43 @@
         </div>
     </div>
 
+    <!-- Domains Section -->
+    <section class="domains-section scroll-animate" id="domainsSection">
+        <div class="domains-container">
+            <h2>ALLOWED DOMAINS (CHOOSE ANY ONE)</h2>
+            <div class="domains-grid">
+                <div class="domain-card scroll-animate">
+                    <span class="domain-icon">🏥</span>
+                    <span class="domain-name">Healthcare &amp; Wellness</span>
+                </div>
+                <div class="domain-card scroll-animate">
+                    <span class="domain-icon">🌾</span>
+                    <span class="domain-name">Agriculture &amp; Rural Development</span>
+                </div>
+                <div class="domain-card scroll-animate">
+                    <span class="domain-icon">🔒</span>
+                    <span class="domain-name">Cyber Security &amp; Digital Safety</span>
+                </div>
+                <div class="domain-card scroll-animate">
+                    <span class="domain-icon">🌍</span>
+                    <span class="domain-name">Environmental Sustainability</span>
+                </div>
+                <div class="domain-card scroll-animate">
+                    <span class="domain-icon">🛒</span>
+                    <span class="domain-name">E-Commerce</span>
+                </div>
+                <div class="domain-card scroll-animate">
+                    <span class="domain-icon">🔐</span>
+                    <span class="domain-name">Crypto and Cryptology</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Rules & Regulations Section -->
     <section class="rules-section scroll-animate" id="rulesSection">
         <div class="rules-container">
-            <h2>RULES & REGULATIONS</h2>
+            <h2>RULES &amp; REGULATIONS</h2>
             <ul class="rules-list">
                 <li>Participants must report 10–15 minutes early, carry a valid ID, and remain in the venue until the
                     contest ends.</li>
@@ -703,6 +862,12 @@
                 <li>The decision of judges and event leads is final and binding.</li>
             </ul>
         </div>
+    </section>
+
+    <!-- Feedback Section -->
+    <section class="feedback-section scroll-animate">
+        <button class="feedback-btn"
+            onclick="window.open('https://forms.gle/KtTE4FyhacCgrEGG8', '_blank')">FEEDBACK</button>
     </section>
 
     <!-- Scripts -->
@@ -759,7 +924,7 @@
     <!-- Auth Logic -->
     <script src="config.js"></script>
     <script src="auth.js"></script>
-    
+
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {

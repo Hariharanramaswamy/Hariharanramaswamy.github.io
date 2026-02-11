@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Hackathon Registration</title>
+    <title>AMJC-NEXATHON 26 Registration</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -696,7 +696,7 @@
     </div>
 
     <div class="container" id="cardContainer">
-        <div class="code-decor">DEV_HACKS_2025</div>
+        <div class="code-decor">NEXATHON_2026</div>
 
         <h2 class="title-type">Registration Portal</h2>
         <div class="subtitle">Join the ultimate coding showdown</div>
@@ -709,6 +709,14 @@
                 <input type="text" id="team_leader" name="member1Name" required pattern="[A-Za-z\s]+"
                     title="Name must only contain letters and spaces" placeholder="Enter team leader name">
 
+                <label>Phone Number:</label>
+                <input type="tel" id="member1_phone" name="member1Phone" pattern="[0-9]{10}" maxlength="10"
+                    title="Enter a valid 10-digit phone number" inputmode="numeric" required
+                    placeholder="Enter phone number">
+
+                <label>Email ID:</label>
+                <input type="email" id="member1_email" name="member1Email" required placeholder="Enter email address">
+
                 <label>Upload ID Card (PNG/JPEG, Max 1MB):</label>
                 <input type="file" id="team_leader_id" name="member1IdCard" accept="image/png, image/jpeg" required
                     onchange="handleFileUpload(this)">
@@ -716,10 +724,6 @@
             </div>
 
             <!-- Personal Details (Leader) -->
-            <label>Date of Birth (Min Age 17):</label>
-            <input type="date" id="dob" name="dob" required onchange="validateDob(this)">
-            <div id="dobError" class="error-text">You must be at least 17 years old.</div>
-
             <label>Gender:</label>
             <select id="gender" name="gender" required>
                 <option value="" disabled selected>Select Gender</option>
@@ -736,14 +740,15 @@
             <label>Department:</label>
             <input type="text" id="department" name="department" required placeholder="Enter department">
 
-            <label>Year of Study:</label>
-            <select id="year" name="year" required>
-                <option value="" disabled selected>Select Year</option>
-                <option value="1">1st Year</option>
-                <option value="2">2nd Year</option>
-                <option value="3">3rd Year</option>
-                <option value="4">4th Year</option>
-                <option value="5">5th Year</option>
+            <label>Select Domain:</label>
+            <select id="domain" name="domain" required>
+                <option value="" disabled selected>Select Domain</option>
+                <option value="Healthcare & Wellness">Healthcare & Wellness</option>
+                <option value="Agriculture & Rural Development">Agriculture & Rural Development</option>
+                <option value="Cyber Security & Digital Safety">Cyber Security & Digital Safety</option>
+                <option value="Environmental Sustainability">Environmental Sustainability</option>
+                <option value="E-Commerce">E-Commerce</option>
+                <option value="Crypto and Cryptology">Crypto and Cryptology</option>
             </select>
 
             <label>Team Name:</label>
@@ -763,6 +768,11 @@
                 <label>Name:</label>
                 <input type="text" id="member2" name="member2Name" pattern="[A-Za-z\s]+"
                     title="Name must only contain letters and spaces" placeholder="Enter member 2 name">
+                <label>Phone Number:</label>
+                <input type="tel" id="member2_phone" name="member2Phone" pattern="[0-9]{10}" maxlength="10"
+                    title="Enter a valid 10-digit phone number" inputmode="numeric" placeholder="Enter phone number">
+                <label>Email ID:</label>
+                <input type="email" id="member2_email" name="member2Email" placeholder="Enter email address">
                 <label>Upload ID Card (PNG/JPEG):</label>
                 <input type="file" id="member2_id" name="member2IdCard" accept="image/png, image/jpeg"
                     onchange="handleFileUpload(this)">
@@ -775,6 +785,11 @@
                 <label>Name:</label>
                 <input type="text" id="member3" name="member3Name" pattern="[A-Za-z\s]+"
                     title="Name must only contain letters and spaces" placeholder="Enter member 3 name">
+                <label>Phone Number:</label>
+                <input type="tel" id="member3_phone" name="member3Phone" pattern="[0-9]{10}" maxlength="10"
+                    title="Enter a valid 10-digit phone number" inputmode="numeric" placeholder="Enter phone number">
+                <label>Email ID:</label>
+                <input type="email" id="member3_email" name="member3Email" placeholder="Enter email address">
                 <label>Upload ID Card (PNG/JPEG):</label>
                 <input type="file" id="member3_id" name="member3IdCard" accept="image/png, image/jpeg"
                     onchange="handleFileUpload(this)">
@@ -787,6 +802,11 @@
                 <label>Name:</label>
                 <input type="text" id="member4" name="member4Name" pattern="[A-Za-z\s]+"
                     title="Name must only contain letters and spaces" placeholder="Enter member 4 name">
+                <label>Phone Number:</label>
+                <input type="tel" id="member4_phone" name="member4Phone" pattern="[0-9]{10}" maxlength="10"
+                    title="Enter a valid 10-digit phone number" inputmode="numeric" placeholder="Enter phone number">
+                <label>Email ID:</label>
+                <input type="email" id="member4_email" name="member4Email" placeholder="Enter email address">
                 <label>Upload ID Card (PNG/JPEG):</label>
                 <input type="file" id="member4_id" name="member4IdCard" accept="image/png, image/jpeg"
                     onchange="handleFileUpload(this)">
@@ -799,6 +819,11 @@
                 <label>Name:</label>
                 <input type="text" id="member5" name="member5Name" pattern="[A-Za-z\s]+"
                     title="Name must only contain letters and spaces" placeholder="Enter member 5 name">
+                <label>Phone Number:</label>
+                <input type="tel" id="member5_phone" name="member5Phone" pattern="[0-9]{10}" maxlength="10"
+                    title="Enter a valid 10-digit phone number" inputmode="numeric" placeholder="Enter phone number">
+                <label>Email ID:</label>
+                <input type="email" id="member5_email" name="member5Email" placeholder="Enter email address">
                 <label>Upload ID Card (PNG/JPEG):</label>
                 <input type="file" id="member5_id" name="member5IdCard" accept="image/png, image/jpeg"
                     onchange="handleFileUpload(this)">
@@ -811,6 +836,11 @@
                 <label>Name:</label>
                 <input type="text" id="member6" name="member6Name" pattern="[A-Za-z\s]+"
                     title="Name must only contain letters and spaces" placeholder="Enter member 6 name">
+                <label>Phone Number:</label>
+                <input type="tel" id="member6_phone" name="member6Phone" pattern="[0-9]{10}" maxlength="10"
+                    title="Enter a valid 10-digit phone number" inputmode="numeric" placeholder="Enter phone number">
+                <label>Email ID:</label>
+                <input type="email" id="member6_email" name="member6Email" placeholder="Enter email address">
                 <label>Upload ID Card (PNG/JPEG):</label>
                 <input type="file" id="member6_id" name="member6IdCard" accept="image/png, image/jpeg"
                     onchange="handleFileUpload(this)">
@@ -888,7 +918,6 @@
         // --- Configuration & Global State ---
         const CONFIG = {
             feePerMember: 100,
-            minAge: 17,
             minSize: 4,
             maxSize: 6
         };
@@ -992,24 +1021,6 @@
             }
         };
 
-        window.validateDob = function (input) {
-            const dob = new Date(input.value);
-            const today = new Date();
-            let age = today.getFullYear() - dob.getFullYear();
-            const m = today.getMonth() - dob.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
-                age--;
-            }
-            const error = document.getElementById('dobError');
-            if (age < CONFIG.minAge) {
-                error.style.display = 'block';
-                input.setCustomValidity("You must be at least 17 years old.");
-            } else {
-                error.style.display = 'none';
-                input.setCustomValidity("");
-            }
-        };
-
         // --- 4. Captcha ---
         window.generateCaptcha = function () {
             const canvas = document.getElementById('captchaCanvas');
@@ -1097,6 +1108,11 @@
             });
             document.getElementById('mobile').addEventListener('input', restrictToNumbers);
             document.getElementById('whatsapp').addEventListener('input', restrictToNumbers);
+
+            // Restrict member phone inputs to numbers only
+            document.querySelectorAll('input[type="tel"][id$="_phone"]').forEach(input => {
+                input.addEventListener('input', restrictToNumbers);
+            });
 
             // Card Tilt
             const card = document.getElementById("cardContainer");

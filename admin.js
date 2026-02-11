@@ -31,14 +31,22 @@ function updateReviewer(name) {
     localStorage.setItem('adminReviewer', name);
 }
 
+/* ============================= */
+/* FETCH TEAMS */
+/* ============================= */
+
 async function fetchTeams() {
-    const user = Auth.getUser();
-    if (!user) return;
+    const token = Auth.getToken();
+
+    if (!token) {
+        console.error("Token missing");
+        return;
+    }
 
     try {
         const res = await fetch(`${window.API_BASE}/admin/teams`, {
             headers: {
-                'Authorization': `Bearer ${user.token}`
+                'Authorization': `Bearer ${token}`
             }
         });
 
@@ -55,12 +63,17 @@ async function fetchTeams() {
     }
 }
 
+/* ============================= */
+/* RENDER TEAMS */
+/* ============================= */
+
 function renderTeams(teams) {
     const grid = document.getElementById('teamGrid');
     grid.innerHTML = '';
 
-    if (teams.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #64748b;">No teams found.</div>';
+    if (!teams || teams.length === 0) {
+        grid.innerHTML =
+            '<div style="grid-column: 1/-1; text-align: center; color: #64748b;">No teams found.</div>';
         return;
     }
 
@@ -68,12 +81,10 @@ function renderTeams(teams) {
         const card = document.createElement('div');
         card.className = `team-card status-${team.status}`;
 
-        // Members List HTML
-        const membersHtml = team.members.map(m =>
-            `<div class="member-item">${m.name}</div>`
+        const membersHtml = team.members.map(name =>
+            `<div class="member-item">${name}</div>`
         ).join('');
 
-        // Action Buttons Logic
         const isPending = team.status === 'PENDING';
 
         card.innerHTML = `
@@ -89,6 +100,7 @@ function renderTeams(teams) {
                 <span class="info-label">Leader:</span>
                 <span class="info-value">${team.leaderName}</span>
             </div>
+
             <div class="info-row">
                 <span class="info-label">Count:</span>
                 <span class="info-value">${team.memberCount}</span>
@@ -110,18 +122,19 @@ function renderTeams(teams) {
                 </div>
 
                 <div class="decision-group">
-                    <button class="btn btn-select" 
-                        onclick="handleDecision(${team.id}, 'SELECTED')" 
+                    <button class="btn btn-select"
+                        onclick="handleDecision(${team.id}, 'SELECTED')"
                         ${!isPending ? 'disabled' : ''}>
                         <i class="fas fa-check"></i> SELECT
                     </button>
-                    <button class="btn btn-reject" 
-                        onclick="handleDecision(${team.id}, 'REJECTED')" 
+
+                    <button class="btn btn-reject"
+                        onclick="handleDecision(${team.id}, 'REJECTED')"
                         ${!isPending ? 'disabled' : ''}>
                         <i class="fas fa-times"></i> REJECT
                     </button>
                 </div>
-                
+
                 ${team.reviewedBy ? `<div class="reviewed-by">Reviewed by ${team.reviewedBy}</div>` : ''}
             </div>
         `;
@@ -130,18 +143,18 @@ function renderTeams(teams) {
     });
 }
 
-function viewDocument(teamId, type) {
-    const user = Auth.getUser();
-    if (!user) return;
+/* ============================= */
+/* VIEW DOCUMENT */
+/* ============================= */
 
-    // Open in new tab using the API URL directly
-    // The strict requirement: "Opens PDF in a new tab, Inline viewing, No auto download"
-    // We append the auth token to the URL or we might need to fetch blob and open if headers are required.
-    // However, simplest way for 'inline' is often window.open if cookies/auth allowed?
-    // Since we use Bearer token, we likely need to fetchBlob and create ObjectURL to open in new tab.
+function viewDocument(teamId, type) {
+    const token = Auth.getToken();
+    if (!token) return;
 
     fetch(`${window.API_BASE}/admin/teams/${teamId}/${type}`, {
-        headers: { 'Authorization': `Bearer ${user.token}` }
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
     })
         .then(res => {
             if (!res.ok) throw new Error('Document not found');
@@ -151,29 +164,34 @@ function viewDocument(teamId, type) {
             const url = window.URL.createObjectURL(blob);
             window.open(url, '_blank');
         })
-        .catch(err => {
+        .catch(() => {
             showToast('Document unavailable', 'error');
         });
 }
+
+/* ============================= */
+/* HANDLE DECISION */
+/* ============================= */
 
 async function handleDecision(teamId, status) {
     const reviewer = document.getElementById('reviewerName').value;
     if (!reviewer) {
         showToast('Please select a Reviewer first!', 'error');
-        // Highlight dropdown
         document.getElementById('reviewerName').focus();
         return;
     }
 
     if (!confirm(`Are you sure you want to mark this team as ${status}?`)) return;
 
+    const token = Auth.getToken();
+    if (!token) return;
+
     try {
-        const user = Auth.getUser();
         const res = await fetch(`${window.API_BASE}/admin/teams/${teamId}/decision`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${user.token}`
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 status: status,
@@ -183,20 +201,24 @@ async function handleDecision(teamId, status) {
 
         if (res.status === 409) {
             showToast('This team has already been reviewed by another admin.', 'error');
-            fetchTeams(); // Refresh to see latest state
+            fetchTeams();
             return;
         }
 
         if (!res.ok) throw new Error('Update failed');
 
         showToast(`Team ${status} successfully!`);
-        fetchTeams(); // Refresh UI
+        fetchTeams();
 
     } catch (err) {
         console.error(err);
         showToast('Failed to update status', 'error');
     }
 }
+
+/* ============================= */
+/* TOAST */
+/* ============================= */
 
 function showToast(msg, type = 'success') {
     const toast = document.getElementById('toast');
