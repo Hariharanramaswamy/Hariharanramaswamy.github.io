@@ -847,17 +847,6 @@
                 <img id="preview_member6" class="preview-image" alt="Preview">
             </div>
 
-            <!-- Contact Details -->
-            <label>Mobile No:</label>
-            <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" maxlength="10"
-                title="Please enter a valid 10-digit mobile number" inputmode="numeric" required
-                placeholder="Enter mobile number" oninput="checkContactDuplicates()">
-            <div id="mobileWarning" class="warning-text"></div>
-
-            <label>WhatsApp No:</label>
-            <input type="tel" id="whatsapp" name="whatsapp" pattern="[0-9]{10}" maxlength="10"
-                title="Please enter a valid 10-digit WhatsApp number" inputmode="numeric" required
-                placeholder="Enter WhatsApp number" oninput="checkContactDuplicates()">
 
             <label>Email ID:</label>
             <input type="email" id="email" name="email" required placeholder="Enter email address">
@@ -1008,18 +997,6 @@
             }
         };
 
-        window.checkContactDuplicates = function () {
-            const mob = document.getElementById('mobile').value;
-            const wa = document.getElementById('whatsapp').value;
-            const warning = document.getElementById('mobileWarning');
-
-            if (mob && wa && mob === wa) {
-                warning.style.display = 'block';
-                warning.innerText = "Note: Mobile and WhatsApp are the same.";
-            } else {
-                warning.style.display = 'none';
-            }
-        };
 
         // --- 4. Captcha ---
         window.generateCaptcha = function () {
@@ -1106,8 +1083,7 @@
                     input.addEventListener('input', restrictToLetters);
                 }
             });
-            document.getElementById('mobile').addEventListener('input', restrictToNumbers);
-            document.getElementById('whatsapp').addEventListener('input', restrictToNumbers);
+
 
             // Restrict member phone inputs to numbers only
             document.querySelectorAll('input[type="tel"][id$="_phone"]').forEach(input => {
