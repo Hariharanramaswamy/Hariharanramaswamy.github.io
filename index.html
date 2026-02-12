@@ -732,6 +732,14 @@
                 transform: translateY(0);
             }
         }
+
+        .hackathon-logo {
+            width: 250px;
+            height: auto;
+            margin: 0 auto 20px;
+            background: transparent;
+            display: block;
+        }
     </style>
 </head>
 
@@ -747,11 +755,11 @@
 
     <!-- Sponsor Strip -->
     <div class="sponsor-strip">
-        <div class="sponsor-logo">SPONSOR 1</div>
+        <div class="sponsor-logo"><img src="./Resource/ciel skills & careers_color.png" alt="Sponsor 1"></div>
         <div class="sponsor-logo"><img src="./Resource/IIC_LOGO_transparent_final.png" alt="IIC"></div>
         <div class="sponsor-logo"><img src="./Resource/MOE_LOGO_transparent_final.png" alt="MoE"></div>
         <div class="sponsor-logo"><img src="./Resource/MIC_LOGO_transparent_final.png" alt="MIC"></div>
-        <div class="sponsor-logo">SPONSOR 5</div>
+        <div class="sponsor-logo"><img src="./Resource/TCS Tata Consultancy Services.png" alt="TCS"></div>
     </div>
 
     <div class="container">
@@ -776,6 +784,7 @@
                 </div>
 
                 <div class="scroll-animate">
+                    <img src="./Resource/Nexathon_logo.png" alt="Nexathon Logo" class="hackathon-logo">
                     <h2 class="hackathon-title">AMJC-NEXATHON<br>26</h2>
                     <div class="hackathon-subtitle">Innovation Starts Here</div>
 
@@ -860,6 +869,9 @@
                 <li>Impersonation, malpractice, or misbehavior will result in immediate disqualification or ban.</li>
                 <li>Participants are responsible for saving and submitting their solutions before the contest ends.</li>
                 <li>The decision of judges and event leads is final and binding.</li>
+                <li>Non-veg food is not allowed.</li>
+                <li>Abstract should be submitted before 22 February.</li>
+                <li>Last date to upload the prototype is 26 February.</li>
             </ul>
         </div>
     </section>
@@ -965,7 +977,7 @@
         function handleRegisterClick(e) {
             e.preventDefault();
 
-            Auth.verifyAuth().then(authState => {
+            Auth.verifyAuth().then(async (authState) => {
                 if (!authState.authenticated) {
                     window.location.assign('login.html');
                     return;
@@ -975,9 +987,26 @@
 
                 if (user.role === 'ADMIN' || user.role === 'ROLE_ADMIN') {
                     window.location.assign('admin-dashboard.html');
-                } else {
-                    window.location.assign('register.html');
+                    return;
                 }
+
+                try {
+                    const res = await fetch(`${window.API_BASE}/profile/status`, {
+                        headers: {
+                            Authorization: `Bearer ${Auth.getToken()}`
+                        }
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.registered === true) {
+                            window.location.assign('profile.html');
+                            return;
+                        }
+                    }
+                } catch (err) {
+                    console.error('Profile status check error:', err);
+                }
+                window.location.assign('register.html');
             });
         }
     </script>

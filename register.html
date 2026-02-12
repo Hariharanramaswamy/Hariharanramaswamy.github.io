@@ -733,9 +733,24 @@
             </select>
 
             <!-- College & Team Info -->
-            <label>College Name:</label>
-            <input type="text" id="college" name="college" required pattern="[A-Za-z0-9\s\.,&]+"
-                title="Please enter a valid college name" placeholder="Enter college name">
+            <label>College:</label>
+            <select id="collegeType" name="collegeType" required onchange="handleCollegeType()">
+                <option value="" disabled selected>Select College</option>
+                <option value="AMJAIN">A.M. Jain College</option>
+                <option value="OTHER">Others</option>
+            </select>
+
+            <div id="amjainBox" style="display:none;">
+                <label>Registration Number:</label>
+                <input type="text" id="registrationNumber" name="registrationNumber"
+                    placeholder="Enter registration number">
+            </div>
+
+            <div id="otherCollegeBox" style="display:none;">
+                <label>College Name:</label>
+                <input type="text" id="collegeName" name="collegeName" pattern="[A-Za-z0-9\s\.,&]+"
+                    title="Please enter a valid college name" placeholder="Enter college name">
+            </div>
 
             <label>Department:</label>
             <input type="text" id="department" name="department" required placeholder="Enter department">
@@ -848,7 +863,7 @@
             </div>
 
 
-            
+
 
             <!-- Canvas Captcha -->
             <label>Security Check:</label>
@@ -866,34 +881,37 @@
             <div id="captchaError" class="error-text">Incorrect code. Please try again.</div>
 
             <!-- Payment Details -->
-            <div style="margin-top: 30px; border-top: 2px dashed rgba(0,0,0,0.1); padding-top: 20px;">
-                <h3
-                    style="text-align: center; color: var(--primary); font-family: 'JetBrains Mono'; margin-bottom: 20px;">
-                    Payment Details</h3>
+            <div id="paymentSection">
+                <div style="margin-top: 30px; border-top: 2px dashed rgba(0,0,0,0.1); padding-top: 20px;">
+                    <h3
+                        style="text-align: center; color: var(--primary); font-family: 'JetBrains Mono'; margin-bottom: 20px;">
+                        Payment Details</h3>
 
-                <label>Registration Fee (₹100 per member):</label>
-                <input type="text" id="registration_fee" value="₹400.00" disabled
-                    style="background: rgba(0,0,0,0.05); font-weight: bold; text-align: center; font-size: 1.2rem;">
+                    <label>Registration Fee (₹100 per member):</label>
+                    <input type="text" id="registration_fee" value="₹400.00" disabled
+                        style="background: rgba(0,0,0,0.05); font-weight: bold; text-align: center; font-size: 1.2rem;">
 
-                <div style="text-align: center; margin: 20px 0;">
-                    <div
-                        style="background: white; padding: 15px; display: inline-block; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                        <img src="Resource/QR.png" alt="Payment QR Code" style="width: 150px; height: 150px;">
-                        <div style="font-size: 0.8rem; color: #64748b; margin-top: 5px; font-weight: 600;">Scan to Pay
+                    <div style="text-align: center; margin: 20px 0;">
+                        <div
+                            style="background: white; padding: 15px; display: inline-block; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                            <img src="Resource/QR.png" alt="Payment QR Code" style="width: 150px; height: 150px;">
+                            <div style="font-size: 0.8rem; color: #64748b; margin-top: 5px; font-weight: 600;">Scan to
+                                Pay
+                            </div>
                         </div>
                     </div>
+
+                    <label>Transaction ID:</label>
+                    <input type="text" id="transaction_id" name="transactionId" required
+                        placeholder="Enter UPI Transaction ID" pattern="[A-Za-z0-9@._\-]{8,}"
+                        title="Transaction ID must be at least 8 chars" onchange="validateTransactionId(this)">
+                    <div id="txnError" class="error-text">Invalid Transaction ID format.</div>
+
+                    <label>Upload Payment Screenshot (PNG/JPEG, Max 1MB):</label>
+                    <input type="file" id="payment_screenshot" name="paymentScreenshot" accept="image/png, image/jpeg"
+                        required onchange="handleFileUpload(this)">
+                    <img id="preview_payment" class="preview-image" alt="Preview">
                 </div>
-
-                <label>Transaction ID:</label>
-                <input type="text" id="transaction_id" name="transactionId" required
-                    placeholder="Enter UPI Transaction ID" pattern="[A-Za-z0-9@._\-]{8,}"
-                    title="Transaction ID must be at least 8 chars" onchange="validateTransactionId(this)">
-                <div id="txnError" class="error-text">Invalid Transaction ID format.</div>
-
-                <label>Upload Payment Screenshot (PNG/JPEG, Max 1MB):</label>
-                <input type="file" id="payment_screenshot" name="paymentScreenshot" accept="image/png, image/jpeg"
-                    required onchange="handleFileUpload(this)">
-                <img id="preview_payment" class="preview-image" alt="Preview">
             </div>
 
             <button type="submit" id="submitBtn">Register Team</button>
@@ -955,6 +973,46 @@
                     const img = container.querySelector('.preview-image');
                     if (img) img.style.display = 'none';
                 }
+            }
+        }
+
+        function handleCollegeType() {
+            const val = document.getElementById('collegeType').value;
+            const amjainBox = document.getElementById('amjainBox');
+            const otherCollegeBox = document.getElementById('otherCollegeBox');
+            const paymentSection = document.getElementById('paymentSection');
+            const regNumInput = document.getElementById('registrationNumber');
+            const collegeInput = document.getElementById('collegeName');
+            const txnInput = document.getElementById('transaction_id');
+            const paymentInput = document.getElementById('payment_screenshot');
+
+            if (val === 'AMJAIN') {
+                amjainBox.style.display = 'block';
+                otherCollegeBox.style.display = 'none';
+                paymentSection.style.display = 'none';
+                regNumInput.setAttribute('required', 'true');
+                if (collegeInput) { collegeInput.removeAttribute('required'); collegeInput.value = ''; }
+                if (txnInput) { txnInput.removeAttribute('required'); txnInput.value = ''; txnInput.disabled = true; }
+                if (paymentInput) { paymentInput.removeAttribute('required'); paymentInput.value = ''; paymentInput.disabled = true; }
+                const previewImg = document.getElementById('preview_payment');
+                if (previewImg) previewImg.style.display = 'none';
+            } else if (val === 'OTHER') {
+                amjainBox.style.display = 'none';
+                otherCollegeBox.style.display = 'block';
+                paymentSection.style.display = 'block';
+                if (collegeInput) collegeInput.setAttribute('required', 'true');
+                regNumInput.removeAttribute('required');
+                regNumInput.value = '';
+                if (txnInput) { txnInput.setAttribute('required', 'true'); txnInput.disabled = false; }
+                if (paymentInput) { paymentInput.setAttribute('required', 'true'); paymentInput.disabled = false; }
+            } else {
+                amjainBox.style.display = 'none';
+                otherCollegeBox.style.display = 'none';
+                paymentSection.style.display = 'none';
+                regNumInput.removeAttribute('required');
+                if (collegeInput) collegeInput.removeAttribute('required');
+                if (txnInput) txnInput.removeAttribute('required');
+                if (paymentInput) paymentInput.removeAttribute('required');
             }
         }
 
@@ -1100,6 +1158,7 @@
             // Initial setup
             updateTeamFields();
             generateCaptcha();
+            handleCollegeType();
         });
 
         const form = document.getElementById("registrationForm");
@@ -1117,10 +1176,15 @@
 
             // --- Required file guards (Fallback check) ---
             const leaderIdFile = document.getElementById("team_leader_id").files[0];
+            const collegeTypeVal = document.getElementById("collegeType").value;
             const paymentFile = document.getElementById("payment_screenshot").files[0];
 
-            if (!leaderIdFile || !paymentFile) {
-                alert("Team Leader ID Card and Payment Screenshot are required.");
+            if (!leaderIdFile) {
+                alert("Team Leader ID Card is required.");
+                return;
+            }
+            if (collegeTypeVal !== 'AMJAIN' && !paymentFile) {
+                alert("Payment Screenshot is required.");
                 return;
             }
 
@@ -1170,10 +1234,9 @@
                 // Modal removed
 
                 // Define the finish function globally
-                // SUCCESS: strictly redirect to id-cards.html
-                // The flow is: Register -> ID Cards Page (Render -> Download -> Popup -> Landing)
-                // We do NOT need teamId in URL because id-cards.html will fetch "my-team" using the token.
-                window.location.href = 'id-cards.html?newReg=true';
+                // SUCCESS: strictly redirect to profile.html
+                alert("Registration successful! Click OK to go to your profile.");
+                window.location.assign("profile.html");
 
             } catch (error) {
                 console.error("Submission error:", error);
